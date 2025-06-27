@@ -1,8 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoginPage, SignupPage, ActivationPage } from "./Routes.js";
 import "./App.css";
+import { ToastContainer, toast, Bounce } from "react-toastify";
+import { useEffect } from "react";
+import Store from "./redux/store.js";
+import { loadUser } from "./redux/actions/user";
 
 const App = () => {
+  useEffect(() => {
+    Store.dispatch(loadUser());
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -14,6 +22,19 @@ const App = () => {
           element={<ActivationPage />}
         />
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={Bounce}
+      />
     </BrowserRouter>
   );
 };
