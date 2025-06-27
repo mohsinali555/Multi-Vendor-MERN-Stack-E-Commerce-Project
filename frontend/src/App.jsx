@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { LoginPage, SignupPage, ActivationPage } from "./Routes.js";
+import { LoginPage, SignupPage, ActivationPage, HomePage } from "./Routes.js";
 import "./App.css";
-import { ToastContainer, toast, Bounce } from "react-toastify";
+import { ToastContainer, Bounce } from "react-toastify";
 import { useEffect } from "react";
 import Store from "./redux/store.js";
 import { loadUser } from "./redux/actions/user";
@@ -14,7 +14,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path="/" element={<LoginPage />} /> */}
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignupPage />} />
         <Route
