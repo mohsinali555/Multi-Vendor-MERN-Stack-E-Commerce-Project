@@ -1,8 +1,14 @@
 import Header from "../components/Layout/Header";
+import Hero from "../components/Route/Hero/Hero.jsx";
+import Categories from "../components/Route/Categories/Categories";
+import BestDeals from "../components/Route/BestDeals/BestDeals";
 const HomePage = () => {
   return (
     <div>
-      <Header />
+      <Header activeHeading={1} />
+      <Hero />
+      <Categories />
+      <BestDeals />
     </div>
   );
 };
