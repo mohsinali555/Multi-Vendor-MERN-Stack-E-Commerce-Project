@@ -13,14 +13,13 @@ const ProductPage = () => {
   useEffect(() => {
     if (categoryData === null) {
       const d =
-        productData && productData.sort((a, b) => b.total_sell - a.total_sell);
+        productData && productData.sort((a, b) => a.total_sell - b.total_sell);
       setData(d);
     } else {
       const d =
         productData && productData.filter((i) => i.category === categoryData);
       setData(d);
     }
-    // window.scrollTo(0, 0);
   }, []);
 
   return (
