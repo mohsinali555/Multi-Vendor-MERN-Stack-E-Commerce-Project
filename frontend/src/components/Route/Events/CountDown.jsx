@@ -4,14 +4,14 @@ const CountDown = () => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const interval = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
-    return () => clearTimeout(timer);
+    return () => clearInterval(interval);
   }, []);
 
   function calculateTimeLeft() {
-    const difference = +new Date("13-0-2025") - +new Date();
+    const difference = +new Date("07-30-2025") - +new Date();
     let timeLeft = {};
 
     if (difference > 0) {
@@ -26,7 +26,26 @@ const CountDown = () => {
     return timeLeft;
   }
 
-  return <div>CountDown</div>;
+  const timerComponents = Object.keys(timeLeft).map((interval) => {
+    if (!timeLeft[interval]) {
+      return null;
+    }
+    return (
+      <span className="text-[25px] text-[#45ad2]">
+        {timeLeft[interval]} {interval}{" "}
+      </span>
+    );
+  });
+
+  return (
+    <div>
+      {timerComponents.length ? (
+        timerComponents
+      ) : (
+        <span className="text-[red] text-[25px]">Time's Up</span>
+      )}
+    </div>
+  );
 };
 
 export default CountDown;

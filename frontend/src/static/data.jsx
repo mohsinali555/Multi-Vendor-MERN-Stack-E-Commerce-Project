@@ -229,13 +229,14 @@ export const categoriesData = [
     title: "Gifts",
     subTitle: "",
     image_Url:
-      "https://securecdn.pymnts.com/wp-content/uploads/2014/11/Gifts-Photo-700x489.jpg",
+      "https://media.istockphoto.com/id/615424056/photo/tablet-pc-smartphone-and-smartwatch-for-christmas.jpg?s=612x612&w=0&k=20&c=hMD5UGdtCtqaGZPizwL9QrI7G7IzgUiMnxvkh-3j3Gg=",
   },
   {
     id: 7,
     title: "Pet Care",
     subTitle: "",
-    image_Url: "https://cdn.openpr.com/T/c/Tc15444071_g.jpg",
+    image_Url:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXuIhr1sZMe6u2w0INluEO8cZVEd3nQVcWOw&s",
   },
   {
     id: 8,
@@ -271,7 +272,7 @@ export const productData = [
     image_Url: [
       {
         public_id: "test",
-        url: "https://www.istorebangladesh.com/images/thumbs/0000286_macbook-pro-m1_550.png",
+        url: "https://itronics.in/wp-content/uploads/2022/06/mbp-spacegray-select-202206-removebg-preview.png",
       },
       {
         public_id: "test",
@@ -331,7 +332,7 @@ export const productData = [
     image_Url: [
       {
         public_id: "test",
-        url: "https://www.istorebangladesh.com/images/thumbs/0000286_macbook-pro-m1_550.png",
+        url: "https://itronics.in/wp-content/uploads/2022/06/mbp-spacegray-select-202206-removebg-preview.png",
       },
       {
         public_id: "test",
@@ -393,7 +394,7 @@ export const productData = [
     image_Url: [
       {
         public_id: "test",
-        url: "https://mirzacdns3.s3.ap-south-1.amazonaws.com/cache/catalog/RLV0015/2-800x800.jpg",
+        url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr8sWH-o4H9F0vbzvJ_0ddjed51USWljJD0g&s",
       },
       {
         public_id: "test",
