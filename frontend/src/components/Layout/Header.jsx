@@ -154,7 +154,11 @@ const Header = ({ activeHeading }) => {
               <div className="relative cursor-pointer mr-[15px]">
                 {isAuthenticated ? (
                   <Link to="/profile">
-                    <img src={`${backend_url}${user.avatar}`} alt="" />
+                    <img
+                      src={`${backend_url}${user.avatar}`}
+                      className="w-[35px] h-[35px] rounded-full"
+                      alt=""
+                    />
                   </Link>
                 ) : (
                   <Link to="/login">
