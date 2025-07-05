@@ -147,24 +147,35 @@ const Header = ({ activeHeading }) => {
                   0
                 </span>
               </div>
-              <div className="relative cursor-pointer mr-[15px]">
+            </div>
+
+            <div className={`${styles.normalFlex}`}>
+              <div
+                className="relative cursor-pointer mr-[15px]"
+                onClick={() => setOpenCart(true)}
+              >
                 <AiOutlineShoppingCart size={30} color="rgb(255 255 255/83%)" />
                 <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
                   1
                 </span>
               </div>
+            </div>
+
+            <div className={`${styles.normalFlex}`}>
               <div className="relative cursor-pointer mr-[15px]">
                 {isAuthenticated ? (
                   <Link to="/profile">
-                    <img
-                      src={`${backend_url}${user.avatar}`}
-                      className="w-[35px] h-[35px] rounded-full"
-                      alt=""
-                    />
+                    {isAuthenticated && user && user.avatar?.url && (
+                      <img
+                        src={`${backend_url}${user.avatar.url}`}
+                        className="w-[35px] h-[35px] rounded-full object-cover"
+                        alt="avatar"
+                      />
+                    )}
                   </Link>
                 ) : (
                   <Link to="/login">
-                    <CgProfile size={30} color="rgb(255 255 255/83%)" />
+                    <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
                   </Link>
                 )}
               </div>
