@@ -336,7 +336,7 @@ export const productData = [
       },
       {
         public_id: "test",
-        url: "https://www.istorebangladesh.com/images/thumbs/0000286_macbook-pro-m1_550.png",
+        url: "https://i.ebayimg.com/images/g/9hEAAOSw5vhlnW5V/s-l1600.webp",
       },
     ],
     shop: {
@@ -398,7 +398,7 @@ export const productData = [
       },
       {
         public_id: "test",
-        url: "https://mirzacdns3.s3.ap-south-1.amazonaws.com/cache/catalog/RLV0015/2-800x800.jpg",
+        url: "https://m.media-amazon.com/images/I/61Fb0e1hh1L._SX625_.jpg",
       },
     ],
     shop: {
@@ -424,11 +424,11 @@ export const productData = [
     image_Url: [
       {
         public_id: "test",
-        url: "https://www.startech.com.bd/image/cache/catalog/headphone/havit/h763d/h763d-02-500x500.jpg",
+        url: "https://myshop.pk/pub/media/catalog/product/cache/26f8091d81cea4b38d820a1d1a4f62be/_/a/_asus-rog-delta-s-gaming-headphone_-myshop-pk-2.jpg",
       },
       {
         public_id: "test",
-        url: "https://eratablet.com/wp-content/uploads/2022/08/H51ba6537405f4948972e293927673546u.jpg",
+        url: "https://m.media-amazon.com/images/I/71SxnSGr4HL._SY450_.jpg",
       },
     ],
     shop: {
