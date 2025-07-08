@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
-  navigate = useNavigate();
+  const navigate = useNavigate();
   const { isAuthenticated } = useSelector((state) => state.user);
 
   useEffect(() => {
