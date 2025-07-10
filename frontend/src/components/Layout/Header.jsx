@@ -200,7 +200,11 @@ const Header = ({ activeHeading }) => {
       </div>
 
       {/* mobile header */}
-      <div className="w-full h-[60px] bg-[#fff] z-50 top-0 left-0 shadow-sm min-[800px]:hidden">
+      <div
+        className={`${
+          active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
+        } w-full h-[60px] bg-[#fff] z-50 top-0 left-0 shadow-sm min-[800px]:hidden`}
+      >
         <div className="w-full flex items-center justify-between">
           <div>
             <BiMenuAltLeft
@@ -231,7 +235,7 @@ const Header = ({ activeHeading }) => {
         {/* header sidebar */}
         {open && (
           <div className="fixed w-full bg-[#0000005f] z-20 h-full top-0 left-0">
-            <div className="fixed w-[60%] bg-[#fff] h-screen top-0 left-0 z-10">
+            <div className="fixed w-[60%] bg-[#fff] h-screen top-0 left-0 z-10 overflow-y-scroll">
               <div className="w-full justify-between flex pr-3">
                 <div>
                   <div className="relative mr-[15px]">
@@ -246,6 +250,78 @@ const Header = ({ activeHeading }) => {
                   className="ml-4 mt-5"
                   onClick={() => setOpen(false)}
                 />
+              </div>
+
+              <div className="my-8 w-[92%] m-auto h-[40px] relative">
+                <input
+                  type="search"
+                  placeholder="Search Product..."
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  className="h-[40px] w-full px-2 border-[#3957db] border-[2px] rounded-md"
+                />
+                {searchData && (
+                  <div className="absolute bg-[#fff] z-10 shadow w-full left-0 p-3">
+                    {searchData.map((i) => {
+                      const d = i.name;
+
+                      const Product_name = d.replace(/\s+/g, "-");
+                      return (
+                        <Link to={`/product/${Product_name}`}>
+                          <div className="flex items-center">
+                            <img
+                              src={i.image_Url[0].url}
+                              alt=""
+                              className="w-[50px] mr-2"
+                            />
+                            <h1>{i.name}</h1>
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              <Navbar active={activeHeading} />
+              <div className={`${styles.button} ml-4 !rounded-[4px]`}>
+                <Link to="/seller">
+                  <h1 className="text-[#fff] flex items-center">
+                    Become Seller
+                    <IoIosArrowForward className="ml-1" />
+                  </h1>
+                </Link>
+              </div>
+              <br />
+              <br />
+              <br />
+              <div className="flex w-full justify-center">
+                {isAuthenticated ? (
+                  <div>
+                    <Link to="/profile">
+                      <img
+                        src={`${backend_url}${user.avatar.url}`}
+                        className="w-[80px] h-[80px] rounded-full border-[3px] border-[#0eae88] object-cover"
+                        alt=""
+                      />
+                    </Link>
+                  </div>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className="text-[18px] text-[#000000b7] pr-[10px]"
+                    >
+                      Login/
+                    </Link>
+                    <Link
+                      to="/sign-up"
+                      className="text-[18px] text-[#000000b7]"
+                    >
+                      Sign up
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
