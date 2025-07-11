@@ -53,7 +53,7 @@ const shopSchema = new mongoose.Schema({
 });
 
 //  Hash password
-userSchema.pre("save", async function (next) {
+shopSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
   }
@@ -62,14 +62,14 @@ userSchema.pre("save", async function (next) {
 });
 
 // jwt token
-userSchema.methods.getJwtToken = function () {
+shopSchema.methods.getJwtToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRES,
   });
 };
 
 // compare password
-userSchema.methods.comparePassword = async function (enteredPassword) {
+shopSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 

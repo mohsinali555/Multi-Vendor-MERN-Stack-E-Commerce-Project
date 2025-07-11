@@ -2,11 +2,16 @@ const express = require("express");
 const path = require("path");
 const router = express.Router();
 const fs = require("fs");
+const Shop = require("../model/shop");
+const { upload } = require("../multer");
+const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMail");
 const sendToken = require("../utils/jwtToken");
 const Shop = require("../model/shop");
 const { isAuthenticated } = require("../middleware/auth");
+const ErrorHandler = require("../utils/ErrorHandler");
+const shop = require("../model/shop");
 
 router.post("/create-shop", upload.single("file"), async (req, res, next) => {
   try {
@@ -47,13 +52,13 @@ router.post("/create-shop", upload.single("file"), async (req, res, next) => {
 
     try {
       await sendMail({
-        email: user.email,
+        email: seller.email,
         subject: "Activate Your Shop",
-        message: `Hello ${user.name}, Please click on the link to activate your shop: ${activationUrl}`,
+        message: `Hello ${seller.name}, Please click on the link to activate your shop: ${activationUrl}`,
       });
       res.status(201).json({
         success: true,
-        message: `please check your email:- ${user.email} to activate your shop`,
+        message: `please check your email:- ${seller.email} to activate your shop`,
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
@@ -70,9 +75,9 @@ const createActivationToken = (seller) => {
   });
 };
 
-// activate user
+// activate seller
 router.post(
-  "/shop/activation",
+  "/activation",
   catchAsyncErrors(async (req, res, next) => {
     try {
       const { activation_token } = req.body;
@@ -87,7 +92,7 @@ router.post(
       const { name, email, avatar, password, zipCode, address, phoneNumber } =
         newSeller;
 
-      let seller = await User.findOne({ email });
+      let seller = await Shop.findOne({ email });
 
       if (seller) {
         return next(new ErrorHandler("User already exists", 400));

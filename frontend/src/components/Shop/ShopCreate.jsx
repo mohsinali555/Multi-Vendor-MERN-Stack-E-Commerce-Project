@@ -13,7 +13,7 @@ const ShopCreate = () => {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState();
   const [address, setAddress] = useState("");
-  const [zipcode, setZipcode] = useState();
+  const [zipCode, setZipCode] = useState();
   const [avatar, setAvatar] = useState();
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState("");
@@ -21,23 +21,31 @@ const ShopCreate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
+    const newForm = new FormData();
 
-    await axios
-      .post(
-        `${server}/user/login-user`,
-        {
-          email,
-          password,
-        },
-        { withCredentials: true }
-      )
+    newForm.append("file", avatar);
+    newForm.append("name", name);
+    newForm.append("email", email);
+    newForm.append("password", password);
+    newForm.append("zipcode", zipCode);
+    newForm.append("address", address);
+    newForm.append("phoneNumber", phoneNumber);
+
+    axios
+      .post(`${server}/shop/create-shop`, newForm, config)
       .then((res) => {
-        toast.success("Login Success!");
-        navigate("/");
-        window.location.reload(true);
+        toast.success(res.data.message);
+        setName("");
+        setEmail("");
+        setPassword("");
+        setAvatar();
+        setZipCode();
+        setAddress("");
+        setPhoneNumber();
       })
-      .catch((err) => {
-        toast.error(err.response.data.message);
+      .catch((error) => {
+        toast.error(error.response.data.message);
       });
   };
 
@@ -145,8 +153,8 @@ const ShopCreate = () => {
                   type="number"
                   name="zipcode"
                   required
-                  value={zipcode}
-                  onChange={(e) => setZipcode(e.target.value)}
+                  value={zipCode}
+                  onChange={(e) => setZipCode(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
               </div>
