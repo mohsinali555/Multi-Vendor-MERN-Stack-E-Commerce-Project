@@ -108,6 +108,7 @@ router.post(
 
       sendToken(seller, 201, res);
     } catch (error) {
+      console.log("Activation Error:", error); // Add this line
       return next(new ErrorHandler(error.message, 500));
     }
   })
