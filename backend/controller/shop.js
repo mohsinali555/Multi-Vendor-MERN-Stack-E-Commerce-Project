@@ -8,14 +8,12 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMail");
 const sendToken = require("../utils/jwtToken");
-const Shop = require("../model/shop");
 const { isAuthenticated } = require("../middleware/auth");
 const ErrorHandler = require("../utils/ErrorHandler");
-const shop = require("../model/shop");
 
 router.post("/create-shop", upload.single("file"), async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { email } = req.body;
     const sellerEmail = await Shop.findOne({ email });
 
     if (sellerEmail) {

@@ -16,7 +16,7 @@ const ShopCreate = () => {
   const [zipCode, setZipCode] = useState();
   const [avatar, setAvatar] = useState();
   const [password, setPassword] = useState("");
-  const [visible, setVisible] = useState("");
+  const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -28,7 +28,7 @@ const ShopCreate = () => {
     newForm.append("name", name);
     newForm.append("email", email);
     newForm.append("password", password);
-    newForm.append("zipcode", zipCode);
+    newForm.append("zipCode", zipCode);
     newForm.append("address", address);
     newForm.append("phoneNumber", phoneNumber);
 

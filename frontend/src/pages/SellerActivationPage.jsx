@@ -10,18 +10,19 @@ const SellerActivationPage = () => {
 
   useEffect(() => {
     if (activation_token) {
-      const activationEmail = async () => {
-        try {
-          const res = await axios.post(`${server}/shop/activation`, {
+      const sendRequest = async () => {
+        await axios
+          .post(`${server}/shop/activation`, {
             activation_token,
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            setError(true);
           });
-          console.log(res.data.message);
-        } catch (error) {
-          console.log(error.response.data.message);
-          setError(true);
-        }
       };
-      activationEmail();
+      sendRequest();
     }
   }, []);
 
@@ -38,7 +39,7 @@ const SellerActivationPage = () => {
       {error ? (
         <p>Your token is expired!</p>
       ) : (
-        <p>Your account has been crreated successfully!</p>
+        <p>Your account has been created suceessfully!</p>
       )}
     </div>
   );
