@@ -1,10 +1,18 @@
 import { useSelector } from "react-redux";
-import { backend_url } from "../../server";
+import { backend_url, server } from "../../server";
 import styles from "../../styles/styles";
+import axios from "axios";
 
 const ShopInfo = ({ isOwner }) => {
-  const logoutHandler = () => {};
   const { seller } = useSelector((state) => state.seller);
+
+  const logoutHandler = async () => {
+    axios.get(`${server}/shop/logout`, {
+      withCredentials: true,
+    });
+    window.location.reload();
+  };
+
   return (
     <div className="w-full py-5">
       <div className="w-full flex items-center justify-center">
