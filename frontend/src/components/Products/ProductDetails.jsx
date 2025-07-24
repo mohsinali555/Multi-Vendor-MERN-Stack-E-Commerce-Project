@@ -9,23 +9,31 @@ import {
 } from "react-icons/ai";
 import { backend_url } from "../../server";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  removeFromWishlist,
+  addToWishlist,
+} from "../../../redux/actions/wishlist";
+import { addToCart } from "../../../redux/actions/cart";
+import { toast } from "react-toastify";
 
 const ProductDetails = ({ data }) => {
+  const { wishlist } = useSelector((state) => state.wishlist);
+  const { cart } = useSelector((state) => state.cart);
+  const { products } = useSelector((state) => state.products);
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(0);
   const navigate = useNavigate();
-
-  const { products } = useSelector((state) => state.products);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllProductsShop(data && data.shop._id));
-  }, [dispatch, data]);
-
-  const handleMessageSubmit = () => {
-    navigate("/inbox?conversation=50dhbgw495802hbjkbr");
-  };
+    dispatch(getAllProductsShop(data && data?.shop._id));
+    if (wishlist && wishlist.find((i) => i._id === data?._id)) {
+      setClick(true);
+    } else {
+      setClick(false);
+    }
+  }, [data, wishlist]);
 
   const decrementCount = () => {
     if (count > 1) {
@@ -34,6 +42,35 @@ const ProductDetails = ({ data }) => {
   };
   const incrementCount = () => {
     setCount(count + 1);
+  };
+
+  const removeFromWishlistHandler = (data) => {
+    setClick(!click);
+    dispatch(removeFromWishlist(data));
+  };
+
+  const addToWishlistHandler = (data) => {
+    setClick(!click);
+    dispatch(addToWishlist(data));
+  };
+
+  const addToCartHandler = (id) => {
+    const isItemExists = cart && cart.find((i) => i._id === id);
+    if (isItemExists) {
+      toast.error("Item already in cart!");
+    } else {
+      if (data.stock < 1) {
+        toast.error("Product Stock Limited");
+      } else {
+        const cartData = { ...data, qty: count };
+        dispatch(addToCart(cartData));
+        toast.success("Item added to cart successfully!");
+      }
+    }
+  };
+
+  const handleMessageSubmit = () => {
+    navigate("/inbox?conversation=50dhbgw495802hbjkbr");
   };
 
   return (
@@ -113,7 +150,7 @@ const ProductDetails = ({ data }) => {
                       <AiFillHeart
                         size={30}
                         className="cursor-pointer "
-                        onClick={() => setClick(!click)}
+                        onClick={() => removeFromWishlistHandler(data)}
                         color={click ? "red" : "#333"}
                         title="Remove from Wishlist"
                       />
@@ -121,7 +158,7 @@ const ProductDetails = ({ data }) => {
                       <AiOutlineHeart
                         size={30}
                         className="cursor-pointer"
-                        onClick={() => setClick(!click)}
+                        onClick={() => addToWishlistHandler(data)}
                         color={click ? "red" : "#333"}
                         title="Add to  Wishlist"
                       />
@@ -129,7 +166,8 @@ const ProductDetails = ({ data }) => {
                   </div>
                 </div>
                 <div
-                  className={`${styles.button} mt-6 rounded h-11 flex items-center`}
+                  className={`${styles.button} !mt-6 rounded h-11 flex items-center`}
+                  onClick={() => addToCartHandler(data._id)}
                 >
                   <span className="text-white flex items-center">
                     Add to cart
@@ -137,15 +175,19 @@ const ProductDetails = ({ data }) => {
                   </span>
                 </div>
                 <div className="flex items-center pt-8">
-                  <img
-                    src={`${backend_url}${data?.shop?.avatar?.url}`}
-                    alt=""
-                    className="w-[50px] h-[50px] rounded-full mr-2"
-                  />
+                  <Link to={`/shop/preview/${data?.shop._id}`}>
+                    <img
+                      src={`${backend_url}${data?.shop?.avatar?.url}`}
+                      alt=""
+                      className="w-[50px] h-[50px] rounded-full mr-2"
+                    />
+                  </Link>
                   <div className="pr-8">
-                    <h3 className={`${styles.shop_name} pb-1 pt-1`}>
-                      {data.shop.name}
-                    </h3>
+                    <Link to={`/shop/preview/${data?.shop._id}`}>
+                      <h3 className={`${styles.shop_name} pb-1 pt-1`}>
+                        {data.shop.name}
+                      </h3>
+                    </Link>
                     <h5 className="pb-3 text-[15px]">(4/5) Ratings</h5>
                   </div>
                   <div

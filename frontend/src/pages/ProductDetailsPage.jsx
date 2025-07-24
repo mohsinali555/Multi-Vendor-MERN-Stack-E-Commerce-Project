@@ -10,20 +10,19 @@ import { useSelector } from "react-redux";
 const ProductDetailsPage = () => {
   const { allProducts } = useSelector((state) => state.products);
 
-  const { name } = useParams();
+  const { id } = useParams();
   const [data, setData] = useState(null);
-  const productName = name.replace(/-/g, " ");
 
   useEffect(() => {
-    const data = allProducts & allProducts.find((i) => i.name === productName);
+    const data = allProducts & allProducts.find((i) => i._id === id);
     setData(data);
-  }, []);
+  }, [allProducts, id]);
 
   return (
     <div>
       <Header />
       <ProductDetails data={data} />
-      {data && <SuggestedProduct data={data} />}
+      {data && <Suggested Product data={data} />}
       <Footer />
     </div>
   );
