@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import { MdOutlineTrackChanges } from "react-icons/md";
 import { toast } from "react-toastify";
 import { deleteUserAddress, updateUserAddress } from "../../redux/actions/user";
+import { getAllOrdersOfUser } from "../../redux/actions/order";
 import axios from "axios";
 
 const ProfileContent = ({ active }) => {
@@ -193,18 +194,13 @@ const ProfileContent = ({ active }) => {
 };
 
 const AllOrders = () => {
-  const orders = [
-    {
-      _id: "4759p5blwkjbwjkfb89234889y4",
-      orderItems: [
-        {
-          name: "Iphone 14 pro max",
-        },
-      ],
-      totalPrice: 120,
-      orderStatus: "Processing",
-    },
-  ];
+  const { user } = useSelector((state) => state.user);
+  const { orders } = useSelector((state) => state.order);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllOrdersOfUser(user._id));
+  }, []);
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
@@ -261,11 +257,12 @@ const AllOrders = () => {
     orders.forEach((item) => {
       row.push({
         id: item._id,
-        itemsQty: item.orderItems.length,
+        itemsQty: item.cart.length,
         total: "US$ " + item.totalPrice,
-        status: item.orderStatus,
+        status: item.status,
       });
     });
+
   return (
     <div className="pl-8 pt-1">
       <DataGrid
@@ -490,6 +487,7 @@ const passwordChangeHandler = async (e) => {
       toast.error(error.response.data.message);
     });
 };
+
 const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
