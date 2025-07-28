@@ -14,7 +14,11 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { MdTrackChanges } from "react-icons/md";
 import { toast } from "react-toastify";
-import { deleteUserAddress, updateUserAddress } from "../../redux/actions/user";
+import {
+  deleteUserAddress,
+  loadUser,
+  updateUserAddress,
+} from "../../redux/actions/user";
 import { getAllOrdersOfUser } from "../../redux/actions/order";
 import axios from "axios";
 
@@ -59,7 +63,8 @@ const ProfileContent = ({ active }) => {
         withCredentials: true,
       })
       .then((response) => {
-        window.location.reload();
+        dispatch(loadUser());
+        toast.success("Avatar updated Successfully!");
       })
       .catch((error) => {
         toast.error(error);
@@ -499,7 +504,7 @@ const ChangePassword = () => {
           className="flex flex-col items-center"
         >
           <div className="w-[100%] min-[800px]:w-[50%] mt-5">
-            <label className="block pb-2 ">Enter your old Password</label>
+            <label className="block pb-2">Enter your old Password</label>
             <input
               type="password"
               className={`${styles.input} !w-[95%] bg-white mb-4 min-[800px]:mb-0`}
@@ -509,7 +514,7 @@ const ChangePassword = () => {
             />
           </div>
           <div className="w-[100%] min-[800px]:w-[50%] mt-5">
-            <label className="block pb-2 ">Enter your new Password</label>
+            <label className="block pb-2">Enter your new Password</label>
             <input
               type="password"
               className={`${styles.input} !w-[95%] bg-white mb-4 min-[800px]:mb-0`}
@@ -519,7 +524,7 @@ const ChangePassword = () => {
             />
           </div>
           <div className="w-[100%] min-[800px]:w-[50%] mt-5">
-            <label className="block pb-2 ">Enter your confirm Password</label>
+            <label className="block pb-2">Enter your confirm Password</label>
             <input
               type="password"
               className={`${styles.input} !w-[95%] bg-white mb-4 min-[800px]:mb-0`}

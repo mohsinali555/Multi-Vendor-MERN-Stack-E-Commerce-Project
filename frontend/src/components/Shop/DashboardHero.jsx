@@ -1,7 +1,9 @@
-import { AiOutlineMoneyCollect } from "react-icons/ai";
+import { AiOutlineArrowRight, AiOutlineMoneyCollect } from "react-icons/ai";
 import { MdBorderClear } from "react-icons/md";
 import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
+import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getAllOrdersOfShop } from "../../redux/actions/order";
@@ -9,7 +11,8 @@ import { getAllProductsOfShop } from "../../redux/actions/product";
 
 const DashboardHero = () => {
   const dispatch = useDispatch();
-  const { seller, orders } = useSelector((state) => state.seller);
+  const { orders } = useSelector((state) => state.order);
+  const { seller } = useSelector((state) => state.seller);
   const { products } = useSelector((state) => state.products);
   const [deliveredOrder, setDeliveredOrder] = useState(null);
 
@@ -27,7 +30,68 @@ const DashboardHero = () => {
     deliveredOrder.reduce((acc, item) => acc + item.totalPrice, 0);
 
   const serviceCharge = totalEarningWithoutTax * 0.1;
-  const availableBalance = totalEarningWithoutTax - serviceCharge;
+  const availableBalance = totalEarningWithoutTax - serviceCharge.toFixed(2);
+
+  const columns = [
+    { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
+
+    {
+      field: "status",
+      headerName: "Status",
+      minWidth: 130,
+      flex: 0.7,
+      cellClassName: (params) => {
+        return params.value === "Delivered" ? "greenColor" : "redColor";
+      },
+    },
+    {
+      field: "itemsQty",
+      headerName: "Items Qty",
+      type: "number",
+      minWidth: 130,
+      flex: 0.7,
+    },
+
+    {
+      field: "total",
+      headerName: "Total",
+      type: "number",
+      minWidth: 130,
+      flex: 0.8,
+    },
+
+    {
+      field: " ",
+      flex: 1,
+      minWidth: 150,
+      headerName: "",
+      type: "number",
+      sortable: false,
+      renderCell: (params) => {
+        return (
+          <>
+            <Link to={`/order/${params.id}`}>
+              <Button>
+                <AiOutlineArrowRight size={20} />
+              </Button>
+            </Link>
+          </>
+        );
+      },
+    },
+  ];
+
+  const row = [];
+
+  orders &&
+    orders.forEach((item) => {
+      row.push({
+        id: item._id,
+        itemsQty: item.cart.length,
+        total: "US$ " + item.totalPrice,
+        status: item.status,
+      });
+    });
 
   return (
     <div className="w-full p-8">
@@ -64,7 +128,9 @@ const DashboardHero = () => {
               Account Orders
             </h3>
           </div>
-          <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">12</h5>
+          <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">
+            {orders && orders.length}
+          </h5>
           <Link to="/dashboard-orders">
             <h5 className="pt-4 pl-2 text-[#077f9c]">View Orders</h5>
           </Link>
@@ -83,7 +149,9 @@ const DashboardHero = () => {
               All Products
             </h3>
           </div>
-          <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">5</h5>
+          <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">
+            {products && products.length}
+          </h5>
           <Link to="/dashboard-products">
             <h5 className="pt-4 pl-2 text-[#077f9c]">View Products</h5>
           </Link>
@@ -91,7 +159,21 @@ const DashboardHero = () => {
       </div>
       <br />
       <h3 className="text-[22px] font-Poppins pb-2">Latest Orders</h3>
-      <div className="w-full min-h-[45vh] bg-white rounded"></div>
+      <div className="w-full min-h-[45vh] bg-white rounded">
+        <DataGrid
+          rows={row}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 10,
+              },
+            },
+          }}
+          pageSizeOptions={[10]}
+          disableSelectionOnClick
+        />
+      </div>
     </div>
   );
 };

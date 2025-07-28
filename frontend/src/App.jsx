@@ -30,6 +30,7 @@ import {
   ShopAllOrders,
   ShopOrderDetails,
   ShopAllRefunds,
+  ShopSettingsPage,
 } from "./routes/ShopRoutes.js";
 import "./App.css";
 import { ToastContainer, Bounce } from "react-toastify";
@@ -138,6 +139,14 @@ const App = () => {
             element={
               <SellerProtectedRoute>
                 <ShopHomePage />
+              </SellerProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <SellerProtectedRoute>
+                <ShopSettingsPage />
               </SellerProtectedRoute>
             }
           />
