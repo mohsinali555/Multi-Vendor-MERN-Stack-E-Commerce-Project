@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { server } from "../../server";
 import styles from "../../styles/styles";
@@ -13,8 +13,6 @@ const ShopInfo = ({ isOwner }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const dispatch = useDispatch();
-
-  console.log("Avatar URL:", data.avatar?.url);
 
   useEffect(() => {
     dispatch(getAllProductsShop(id));
@@ -38,19 +36,19 @@ const ShopInfo = ({ isOwner }) => {
     window.location.reload();
   };
 
-  // const totalReviewsLength =
-  //   products &&
-  //   products.reduce((acc, product) => acc + product.reviews.length, 0);
+  const totalReviewsLength =
+    products &&
+    products.reduce((acc, product) => acc + product.reviews.length, 0);
 
-  // const totalRatings =
-  //   products &&
-  //   products.reduce(
-  //     (acc, product) =>
-  //       acc + product.reviews.reduce((sum, review) => sum + review.rating, 0),
-  //     0
-  //   );
+  const totalRatings =
+    products &&
+    products.reduce(
+      (acc, product) =>
+        acc + product.reviews.reduce((sum, review) => sum + review.rating, 0),
+      0
+    );
 
-  // const averageRating = totalRatings / totalReviewsLength || 0;
+  const averageRating = totalRatings / totalReviewsLength || 0;
 
   return (
     <>
@@ -87,7 +85,7 @@ const ShopInfo = ({ isOwner }) => {
           </div>
           <div className="p-3">
             <h5 className="font-[600]">Shop Ratings</h5>
-            <h4 className="text-[#000000b0]">5/5</h4>
+            <h4 className="text-[#000000b0]">{averageRating}/5</h4>
           </div>
           <div className="p-3">
             <h5 className="font-[600]">Joined On</h5>

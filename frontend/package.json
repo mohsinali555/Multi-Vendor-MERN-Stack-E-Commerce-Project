@@ -31,7 +31,9 @@
     "react-router-dom": "^7.6.2",
     "react-toastify": "^11.0.5",
     "redux-toolkit": "^1.1.2",
-    "tailwindcss": "^4.1.11"
+    "socket.io-client": "^4.8.1",
+    "tailwindcss": "^4.1.11",
+    "timeago.js": "^4.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
