@@ -35,6 +35,7 @@ import {
   ShopWithDrawMoneyPage,
   ShopInboxPage,
 } from "./routes/ShopRoutes.js";
+import { AdminDashboardPage } from "./routes/AdminRoutes";
 import "./App.css";
 import { ToastContainer, Bounce } from "react-toastify";
 import { useEffect } from "react";
@@ -249,6 +250,8 @@ const App = () => {
               </SellerProtectedRoute>
             }
           />
+          {/* Admin Routes */}
+          <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
         </Routes>
         <ToastContainer
           position="top-right"
