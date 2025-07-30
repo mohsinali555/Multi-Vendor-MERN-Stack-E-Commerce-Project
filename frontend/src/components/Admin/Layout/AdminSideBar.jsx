@@ -1,19 +1,19 @@
-import { AiOutlineFolderAdd, AiOutlineGift } from "react-icons/ai";
-import { FiPackage, FiShoppingBag } from "react-icons/fi";
+import { AiOutlineSetting } from "react-icons/ai";
+import { FiShoppingBag } from "react-icons/fi";
 import { GrWorkshop } from "react-icons/gr";
 import { RxDashboard } from "react-icons/rx";
+import { BsHandbag } from "react-icons/bs";
+import { MdOutlineLocalOffer } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { VscNewFile } from "react-icons/vsc";
-import { CiMoneyBill, CiSettings } from "react-icons/ci";
-import { BiMessageSquareDetail } from "react-icons/bi";
-import { HiOutlineReceiptRefund, HiOutlineUserGroup } from "react-icons/hi";
+import { CiMoneyBill } from "react-icons/ci";
+import { HiOutlineUserGroup } from "react-icons/hi";
 
 const AdminSideBar = ({ active }) => {
   return (
     <div className="w-full h-[100vh] bg-white shadow-sm overflow-y-scroll sticky top-0 left-0 z-10">
       {/* single item */}
       <div className="w-full flex items-center p-4">
-        <Link to="/dashboard" className="w-full flex items-center">
+        <Link to="/admin/dashboard" className="w-full flex items-center">
           <RxDashboard
             size={30}
             color={`${active === 1 ? "crimson" : "#555"}`}
@@ -29,7 +29,7 @@ const AdminSideBar = ({ active }) => {
       </div>
 
       <div className="w-full flex items-center p-4">
-        <Link to="/dashboard-orders" className="w-full flex items-center">
+        <Link to="/admin-orders" className="w-full flex items-center">
           <FiShoppingBag
             size={30}
             color={`${active === 2 ? "crimson" : "#555"}`}
@@ -77,6 +77,35 @@ const AdminSideBar = ({ active }) => {
       </div>
 
       <div className="w-full flex items-center p-4">
+        <Link to="/admin-products" className="w-full flex items-center">
+          <BsHandbag size={30} color={`${active === 5 ? "crimson" : "#555"}`} />
+          <h5
+            className={`hidden min-[800px]:block pl-2 text-[18px] font-[400] ${
+              active === 5 ? "text-[crimson]" : "text-[#555]"
+            }`}
+          >
+            All Products
+          </h5>
+        </Link>
+      </div>
+
+      <div className="w-full flex items-center p-4">
+        <Link to="/admin-events" className="w-full flex items-center">
+          <MdOutlineLocalOffer
+            size={30}
+            color={`${active === 6 ? "crimson" : "#555"}`}
+          />
+          <h5
+            className={`hidden min-[800px]:block pl-2 text-[18px] font-[400] ${
+              active === 6 ? "text-[crimson]" : "text-[#555]"
+            }`}
+          >
+            All Events
+          </h5>
+        </Link>
+      </div>
+
+      <div className="w-full flex items-center p-4">
         <Link
           to="/dashboard-withdraw-money"
           className="w-full flex items-center"
@@ -90,7 +119,23 @@ const AdminSideBar = ({ active }) => {
               active === 7 ? "text-[crimson]" : "text-[#555]"
             }`}
           >
-            Withdraw Money
+            Withdraw Request
+          </h5>
+        </Link>
+      </div>
+
+      <div className="w-full flex items-center p-4">
+        <Link to="/profile" className="w-full flex items-center">
+          <AiOutlineSetting
+            size={30}
+            color={`${active === 8 ? "crimson" : "#555"}`}
+          />
+          <h5
+            className={`hidden min-[800px]:block pl-2 text-[18px] font-[400] ${
+              active === 8 ? "text-[crimson]" : "text-[#555]"
+            }`}
+          >
+            Settings
           </h5>
         </Link>
       </div>
