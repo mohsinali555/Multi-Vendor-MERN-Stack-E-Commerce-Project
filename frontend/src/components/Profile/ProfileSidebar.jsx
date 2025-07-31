@@ -3,8 +3,11 @@ import { HiOutlineShoppingBag, HiOutlineReceiptRefund } from "react-icons/hi";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { RxPerson } from "react-icons/rx";
 import { TbAddressBook } from "react-icons/tb";
-import { MdOutlineTrackChanges } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import {
+  MdOutlineAdminPanelSettings,
+  MdOutlineTrackChanges,
+} from "react-icons/md";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { server } from "../../server";
 import axios from "axios";
@@ -120,6 +123,28 @@ const ProfileSidebar = ({ active, setActive }) => {
           Address
         </span>
       </div>
+
+      {user && user?.role === "Admin" && (
+        <Link to="/admin/dashboard">
+          <div
+            className="flex items-center cursor-pointer w-full mb-8"
+            onClick={() => setActive(7)}
+          >
+            <MdOutlineAdminPanelSettings
+              size={20}
+              color={active === 8 ? "red" : ""}
+            />
+            <span
+              className={`pl-3 ${
+                active === 8 ? "text-[red]" : ""
+              } min-[800px]:block hidden`}
+            >
+              Admin Dashboard
+            </span>
+          </div>
+        </Link>
+      )}
+
       <div
         className="flex items-center cursor-pointer w-full mb-8"
         onClick={() => setActive(8) || logoutHandler()}

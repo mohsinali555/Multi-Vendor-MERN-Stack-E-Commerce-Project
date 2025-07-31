@@ -7,10 +7,18 @@ import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getAllOrdersOfShop } from "../../redux/actions/order";
-import { getAllProductsOfShop } from "../../redux/actions/product";
+import { getAllOrdersOfAdmin } from "../../redux/actions/order";
 
 const AdminDashboardMain = () => {
+  const [orders, setOrders] = useState([]);
+  const dispatch = useDispatch();
+  const { adminOrders } = useSelector((state) => state.order);
+
+  useEffect(() => {
+    dispatch(getAllOrdersOfAdmin());
+    setOrders(adminOrders);
+  }, [adminOrders]);
+
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
 
@@ -62,16 +70,16 @@ const AdminDashboardMain = () => {
 
   const row = [];
 
-  //   orders &&
-  //     orders.forEach((item) => {
-  row.push({
-    id: "123 ",
-    // itemsQty: item.cart.length,
-    itemsQty: 10,
-    total: 10,
-    status: "processing",
-  });
-  // });
+  orders &&
+    orders.forEach((item) => {
+      row.push({
+        id: item._id,
+        itemsQty: item.cart.reduce((acc, item) => acc + item.qty, 0),
+        itemsQty: item.cart.length,
+        total: item.totalPrice + " $",
+        status: item.status,
+      });
+    });
 
   return (
     <div className="w-full p-4">
@@ -141,7 +149,7 @@ const AdminDashboardMain = () => {
               },
             },
           }}
-          pageSizeOptions={[10]}
+          pageSizeOptions={[5]}
           disableSelectionOnClick
         />
       </div>

@@ -45,6 +45,7 @@ import { getAllProducts } from "./redux/actions/product";
 import { getAllEvents } from "./redux/actions/event";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import SellerProtectedRoute from "./routes/SellerProtectedRoute";
+import AdminProtectedRoute from "./routes/AdminProtectedRoute";
 import { ShopHomePage } from "./ShopRoutes";
 import axios from "axios";
 import { server } from "./server";
@@ -251,7 +252,14 @@ const App = () => {
             }
           />
           {/* Admin Routes */}
-          <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <AdminProtectedRoute>
+                <AdminDashboardPage />
+              </AdminProtectedRoute>
+            }
+          />
         </Routes>
         <ToastContainer
           position="top-right"
