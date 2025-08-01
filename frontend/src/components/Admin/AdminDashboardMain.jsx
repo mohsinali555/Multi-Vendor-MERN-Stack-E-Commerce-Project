@@ -8,13 +8,16 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getAllOrdersOfAdmin } from "../../redux/actions/order";
+import { getAllSellers } from "../../redux/actions/sellers";
 
 const AdminDashboardMain = () => {
   const dispatch = useDispatch();
   const { adminOrders, isLoading } = useSelector((state) => state.order);
+  const { sellers } = useSelector((state) => state.seller);
 
   useEffect(() => {
     dispatch(getAllOrdersOfAdmin());
+    dispatch(getAllSellers());
   }, []);
 
   const columns = [
@@ -72,10 +75,10 @@ const AdminDashboardMain = () => {
     adminOrders.forEach((item) => {
       row.push({
         id: item._id,
-        itemsQty: item.cart.reduce((acc, item) => acc + item.qty, 0),
-        itemsQty: item.cart.length,
-        total: item.totalPrice + " $",
-        status: item.status,
+        itemsQty: item?.cart?.reduce((acc, item) => acc + item.qty, 0),
+        itemsQty: item?.cart?.length,
+        total: item?.totalPrice + " $",
+        status: item?.status,
       });
     });
 
@@ -112,7 +115,9 @@ const AdminDashboardMain = () => {
                   All Sellers
                 </h3>
               </div>
-              <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">12</h5>
+              <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">
+                {sellers && sellers.length}
+              </h5>
               <Link to="/admin-sellers">
                 <h5 className="pt-4 pl-2 text-[#077f9c]">View Sellers</h5>
               </Link>
