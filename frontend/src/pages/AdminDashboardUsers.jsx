@@ -1,4 +1,7 @@
 import React from "react";
+import AdminHeader from "../components/Layout/AdminHeader";
+import AdminSideBar from "../components/Admin/Layout/AdminSideBar";
+import AllUsers from "../components/Admin/AllUsers";
 
 const AdminDashboardUsers = () => {
   return (
@@ -6,10 +9,10 @@ const AdminDashboardUsers = () => {
       <AdminHeader />
       <div className="w-full flex">
         <div className="flex items-start justify-between w-full">
-          <div className="w-[80px] min-[800px]:w-[330px]">
-            <AdminSideBar active={1} />
+          <div className="w-[80px] 800px:w-[330px]">
+            <AdminSideBar active={4} />
           </div>
-          <AdminDashboardMain />
+          <AllUsers />
         </div>
       </div>
     </div>
