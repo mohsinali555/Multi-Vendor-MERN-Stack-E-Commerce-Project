@@ -35,7 +35,10 @@ import {
   ShopWithDrawMoneyPage,
   ShopInboxPage,
 } from "./routes/ShopRoutes.js";
-import { AdminDashboardPage, AdminDashboardUsers } from "./routes/AdminRoutes";
+import {
+  AdminDashboardPage,
+  AdminDashboardUsersPage,
+} from "./routes/AdminRoutes";
 import "./App.css";
 import { ToastContainer, Bounce } from "react-toastify";
 import { useEffect } from "react";
@@ -264,7 +267,7 @@ const App = () => {
             path="/admin-users"
             element={
               <AdminProtectedRoute>
-                <AdminDashboardUsers />
+                <AdminDashboardUsersPage />
               </AdminProtectedRoute>
             }
           />

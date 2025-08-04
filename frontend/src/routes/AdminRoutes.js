@@ -1,4 +1,4 @@
 import AdminDashboardPage from "../pages/AdminDashboardPage";
-import AdminDashboardUsers from "../pages/AdminDashboardUsers";
+import AdminDashboardUsersPage from "../pages/AdminDashboardUsersPage";
 
-export { AdminDashboardPage, AdminDashboardUsers };
+export { AdminDashboardPage, AdminDashboardUsersPage };
