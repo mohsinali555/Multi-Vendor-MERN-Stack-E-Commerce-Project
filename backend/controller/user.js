@@ -393,4 +393,31 @@ router.get(
   })
 );
 
+// delete users
+router.delete(
+  "/delete-user/:id",
+  isAuthenticated,
+  isAdmin("Admin"),
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const user = await User.findById(req.user.id);
+
+      if (!user) {
+        return next(
+          new ErrorHandler("User is not available with this id", 400)
+        );
+      }
+
+      await User.findByIdAndDelete(req.user.id);
+
+      res.status(201).json({
+        success: true,
+        message: "User deleted successfully",
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
+
 module.exports = router;

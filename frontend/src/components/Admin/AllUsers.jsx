@@ -1,5 +1,9 @@
 import styles from "../../styles/styles";
-import { AiOutlineArrowRight, AiOutlineMoneyCollect } from "react-icons/ai";
+import {
+  AiOutlineArrowRight,
+  AiOutlineDelete,
+  AiOutlineMoneyCollect,
+} from "react-icons/ai";
 import { MdBorderClear } from "react-icons/md";
 import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
@@ -36,6 +40,13 @@ const AllUsers = () => {
       minWidth: 130,
       flex: 0.7,
     },
+    {
+      field: "role",
+      headerName: "User Role",
+      type: "text",
+      minWidth: 130,
+      flex: 0.7,
+    },
 
     {
       field: "joinedAt",
@@ -49,18 +60,18 @@ const AllUsers = () => {
       field: " ",
       flex: 1,
       minWidth: 150,
-      headerName: "",
+      headerName: "Delete User",
       type: "number",
       sortable: false,
-      //   renderCell: (params) => {
-      //     return (
-      //       <>
-      //         <Button>
-      //           <AiOutlineArrowRight size={20} />
-      //         </Button>
-      //       </>
-      //     );
-      //   },
+      renderCell: (params) => {
+        return (
+          <>
+            <Button onClick={() => handleDelete(params.id)}>
+              <AiOutlineDelete size={20} />
+            </Button>
+          </>
+        );
+      },
     },
   ];
 
@@ -72,10 +83,49 @@ const AllUsers = () => {
         id: item._id,
         name: item.name,
         email: item.email,
-        joinedAt: item.createdAt,
+        role: item.role,
+        joinedAt: item.createdAt.slice(0, 10),
       });
     });
-  return <div>AllUsers</div>;
+  return (
+    <div className="w-full flex justify-center pt-5">
+      <div className="w-[97%]">
+        <h3 className="text-[22px] font-Poppins pb-2">All Users</h3>
+        <div className="w-full min-h-[45vh] bg-white rounded">
+          <DataGrid
+            rows={row}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 10,
+                },
+              },
+            }}
+            pageSizeOptions={[10]}
+            disableSelectionOnClick
+          />
+        </div>
+        {open && (
+          <div className="w-full fixed top-0 left-0 z-[999] bg-[#00000039] flex items-center justify-center h-screen">
+            <div className="w-[95%] min-[800px]:w-[40%] min-h-[20vh] bg-white rounded shadow p-5">
+              <div className="w-full flex justify-center cursor-pointer">
+                <RxCross1 size={25} onClick={() => setOpen(false)} />
+              </div>
+              <h3 className="text-[25px] text-center py-5 font-Poppins text-[#000000cb]">
+                Are you sure you wan'na delete this user?
+              </h3>
+              <div className="w-full flex items-center justify-center">
+                <div
+                  className={`${styles.button} text-white text-[18px] !h-[42p]`}
+                ></div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default AllUsers;
