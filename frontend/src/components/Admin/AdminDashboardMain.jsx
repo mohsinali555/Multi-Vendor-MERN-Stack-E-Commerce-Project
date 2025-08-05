@@ -76,7 +76,6 @@ const AdminDashboardMain = () => {
       row.push({
         id: item._id,
         itemsQty: item?.cart?.reduce((acc, item) => acc + item.qty, 0),
-        itemsQty: item?.cart?.length,
         total: item?.totalPrice + " $",
         status: item?.status,
       });
