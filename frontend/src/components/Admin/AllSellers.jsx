@@ -1,39 +1,40 @@
 import styles from "../../styles/styles";
-import { AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineEye } from "react-icons/ai";
 import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { getAllUsers } from "../../redux/actions/user";
+import { getAllSellers } from "../../redux/actions/sellers";
 import { RxCross1 } from "react-icons/rx";
 import axios from "axios";
 import { server } from "../../server";
+import { Link } from "react-router-dom";
 
-const AllUsers = () => {
+const AllSellers = () => {
   const dispatch = useDispatch();
-  const { users } = useSelector((state) => state.user);
+  const { sellers } = useSelector((state) => state.seller);
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState("");
 
   useEffect(() => {
-    dispatch(getAllUsers());
+    dispatch(getAllSellers());
   }, [dispatch]);
 
   const handleDelete = async (id) => {
     await axios
-      .delete(`${server}/user/delete-user/${id}`, {
+      .delete(`${server}/shop/delete-seller/${id}`, {
         withCredentials: true,
       })
       .then((res) => {
         toast.success(res.data.message);
       });
 
-    dispatch(getAllUsers());
+    dispatch(getAllSellers());
   };
 
   const columns = [
-    { field: "id", headerName: "User ID", minWidth: 150, flex: 0.7 },
+    { field: "id", headerName: "Seller ID", minWidth: 150, flex: 0.7 },
 
     {
       field: "name",
@@ -49,8 +50,8 @@ const AllUsers = () => {
       flex: 0.7,
     },
     {
-      field: "role",
-      headerName: "User Role",
+      field: "address",
+      headerName: "Seller Address",
       type: "text",
       minWidth: 130,
       flex: 0.7,
@@ -65,10 +66,29 @@ const AllUsers = () => {
     },
 
     {
+      field: "  ",
+      flex: 1,
+      minWidth: 150,
+      headerName: "Preview Shop",
+      type: "text",
+      sortable: false,
+      renderCell: (params) => {
+        return (
+          <>
+            <Link to={`/shop/preview/${params.id}`}>
+              <Button>
+                <AiOutlineEye size={20} />
+              </Button>
+            </Link>
+          </>
+        );
+      },
+    },
+    {
       field: " ",
       flex: 1,
       minWidth: 150,
-      headerName: "Delete User",
+      headerName: "Delete Seller",
       type: "number",
       sortable: false,
       renderCell: (params) => {
@@ -85,20 +105,20 @@ const AllUsers = () => {
 
   const row = [];
 
-  users &&
-    users.forEach((item) => {
+  sellers &&
+    sellers.forEach((item) => {
       row.push({
         id: item?._id,
         name: item?.name,
         email: item?.email,
-        role: item?.role,
+        address: item?.address,
         joinedAt: item?.createdAt.slice(0, 10),
       });
     });
   return (
     <div className="w-full flex justify-center pt-5">
       <div className="w-[97%]">
-        <h3 className="text-[22px] font-Poppins pb-2">All Users</h3>
+        <h3 className="text-[22px] font-Poppins pb-2">All Sellers</h3>
         <div className="w-full min-h-[45vh] bg-white rounded">
           <DataGrid
             rows={row}
@@ -121,7 +141,7 @@ const AllUsers = () => {
                 <RxCross1 size={25} onClick={() => setOpen(false)} />
               </div>
               <h3 className="text-[25px] text-center py-5 font-Poppins text-[#000000cb]">
-                Are you sure you wan'na delete this user?
+                Are you sure you wan'na delete this seller?
               </h3>
               <div className="w-full flex items-center justify-center">
                 <div
@@ -145,4 +165,4 @@ const AllUsers = () => {
   );
 };
 
-export default AllUsers;
+export default AllSellers;

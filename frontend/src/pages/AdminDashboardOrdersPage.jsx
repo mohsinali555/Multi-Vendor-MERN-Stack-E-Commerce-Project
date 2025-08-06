@@ -1,21 +1,21 @@
 import AdminHeader from "../components/Layout/AdminHeader";
 import AdminSideBar from "../components/Admin/Layout/AdminSideBar";
-import AllUsers from "../components/Admin/AllUsers";
+import AllOrders from "../components/Admin/AllOrders";
 
-const AdminDashboardUsersPage = () => {
+const AdminDashboardOrdersPage = () => {
   return (
     <div>
       <AdminHeader />
       <div className="w-full flex">
         <div className="flex items-start justify-between w-full">
           <div className="w-[80px] min-[800px]:w-[330px]">
-            <AdminSideBar active={4} />
+            <AdminSideBar active={2} />
           </div>
-          <AllUsers />
+          <AllOrders />
         </div>
       </div>
     </div>
   );
 };
 
-export default AdminDashboardUsersPage;
+export default AdminDashboardOrdersPage;

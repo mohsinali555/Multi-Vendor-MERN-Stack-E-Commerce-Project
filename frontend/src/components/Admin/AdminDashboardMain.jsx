@@ -49,23 +49,11 @@ const AdminDashboardMain = () => {
     },
 
     {
-      field: " ",
-      flex: 1,
-      minWidth: 150,
-      headerName: "",
+      field: "createdAt",
+      headerName: "Order Date",
       type: "number",
-      sortable: false,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={`/order/${params.id}`}>
-              <Button>
-                <AiOutlineArrowRight size={20} />
-              </Button>
-            </Link>
-          </>
-        );
-      },
+      minWidth: 130,
+      flex: 0.8,
     },
   ];
 
@@ -78,6 +66,7 @@ const AdminDashboardMain = () => {
         itemsQty: item?.cart?.reduce((acc, item) => acc + item.qty, 0),
         total: item?.totalPrice + " $",
         status: item?.status,
+        createdAt: item?.createdAt.slice(0, 10),
       });
     });
 

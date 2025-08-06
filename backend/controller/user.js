@@ -393,14 +393,14 @@ router.get(
   })
 );
 
-// delete users
+// delete users ----- for admin
 router.delete(
   "/delete-user/:id",
   isAuthenticated,
   isAdmin("Admin"),
   catchAsyncErrors(async (req, res, next) => {
     try {
-      const user = await User.findById(req.user.id);
+      const user = await User.findById(req.params.id);
 
       if (!user) {
         return next(
@@ -408,7 +408,7 @@ router.delete(
         );
       }
 
-      await User.findByIdAndDelete(req.user.id);
+      await User.findByIdAndDelete(req.params.id);
 
       res.status(201).json({
         success: true,
