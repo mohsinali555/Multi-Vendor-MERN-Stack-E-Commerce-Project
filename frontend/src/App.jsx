@@ -40,6 +40,7 @@ import {
   AdminDashboardUsersPage,
   AdminDashboardSellersPage,
   AdminDashboardOrdersPage,
+  AdminDashboardProductsPage,
 } from "./routes/AdminRoutes";
 import "./App.css";
 import { ToastContainer, Bounce } from "react-toastify";
@@ -286,6 +287,14 @@ const App = () => {
             element={
               <AdminProtectedRoute>
                 <AdminDashboardOrdersPage />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-products"
+            element={
+              <AdminProtectedRoute>
+                <AdminDashboardProductsPage />
               </AdminProtectedRoute>
             }
           />
