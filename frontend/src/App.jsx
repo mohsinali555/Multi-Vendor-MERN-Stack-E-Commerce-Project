@@ -41,6 +41,8 @@ import {
   AdminDashboardSellersPage,
   AdminDashboardOrdersPage,
   AdminDashboardProductsPage,
+  AdminDashboardEventsPage,
+  AdminDashboardWithdrawPage,
 } from "./routes/AdminRoutes";
 import "./App.css";
 import { ToastContainer, Bounce } from "react-toastify";
@@ -295,6 +297,22 @@ const App = () => {
             element={
               <AdminProtectedRoute>
                 <AdminDashboardProductsPage />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-events"
+            element={
+              <AdminProtectedRoute>
+                <AdminDashboardEventsPage />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-withdraw-request"
+            element={
+              <AdminProtectedRoute>
+                <AdminDashboardWithdrawPage />
               </AdminProtectedRoute>
             }
           />
