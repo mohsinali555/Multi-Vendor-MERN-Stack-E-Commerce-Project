@@ -49,6 +49,10 @@ const shopSchema = new mongoose.Schema({
   withdrawMethod: {
     type: Object,
   },
+  availableBalance: {
+    type: Number,
+    default: 0,
+  },
   transactions: [
     {
       amount: {

@@ -3,14 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllOrdersOfShop } from "../../redux/actions/order";
 import styles from "../../styles/styles";
 import { RxCross1 } from "react-icons/rx";
+import axios from "axios";
+import { server } from "../../server";
+import { toast } from "react-toastify";
+import { loadSeller } from "../../redux/actions/user";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const WithdrawMoney = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const { orders } = useSelector((state) => state.order);
   const { seller } = useSelector((state) => state.seller);
-  const [deliveredOrder, setDeliveredOrder] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState(false);
+  const [withdrawAmount, setWithdrawAmount] = useState(null);
   const [bankInfo, setBankInfo] = useState({
     bankName: "",
     bankCountry: "",
@@ -22,18 +26,7 @@ const WithdrawMoney = () => {
 
   useEffect(() => {
     dispatch(getAllOrdersOfShop(seller._id));
-
-    const orderData =
-      orders && orders.filter((item) => item.status === "Delivered");
-    setDeliveredOrder(orderData);
   }, [dispatch]);
-
-  const totalEarningWithoutTax =
-    deliveredOrder &&
-    deliveredOrder.reduce((acc, item) => acc + item.totalPrice, 0);
-
-  const serviceCharge = totalEarningWithoutTax * 0.1;
-  const availableBalance = totalEarningWithoutTax - serviceCharge.toFixed(2);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,6 +67,40 @@ const WithdrawMoney = () => {
       });
   };
 
+  const deleteHandler = async () => {
+    await axios
+      .delete(`${server}/shop/delete-withdraw-method`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        toast.success("Withdraw method deleted successfully!");
+        dispatch(loadSeller());
+      });
+  };
+
+  const error = () => {
+    toast.error("You not have enough balance to withdraw!");
+  };
+
+  const withdrawHandler = async () => {
+    if (withdrawAmount < 50 || withdrawAmount > availableBalance) {
+      toast.error("You can't withdraw this amount!");
+    } else {
+      const amount = withdrawAmount;
+      await axios
+        .post(
+          `${server}/withdraw/create-withdraw-request`,
+          { amount },
+          { withCredentials: true }
+        )
+        .then((res) => {
+          toast.success("Withdraw money request is successful!");
+        });
+    }
+  };
+
+  const availableBalance = seller?.availableBalance.toFixed(2);
+
   return (
     <div className="w-full h-[90vh] p-8">
       <div className="w-full bg-white h-full rounded flex items-center justify-center flex-col">
@@ -82,7 +109,7 @@ const WithdrawMoney = () => {
         </h5>
         <div
           className={`${styles.button} text-white !h-[42px] !rounded`}
-          onClick={() => setOpen(true)}
+          onClick={() => (availableBalance < 50 ? error() : setOpen(true))}
         >
           Withdraw
         </div>
@@ -104,7 +131,7 @@ const WithdrawMoney = () => {
             {paymentMethod ? (
               <div>
                 <h3 className="text-[22px] font-Poppins">
-                  Add New Payment Method:
+                  Add New Withdraw Method:
                 </h3>
                 <form onSubmit={handleSubmit}>
                   <div>
@@ -240,14 +267,52 @@ const WithdrawMoney = () => {
             ) : (
               <>
                 <h3 className="text-[22px] font-Poppins text-center font-[600]">
-                  Available Payment Methods:
+                  Available Withdraw Methods:
                 </h3>
-                {seller && seller?.paymentMethods ? (
-                  <div></div>
+                {seller && seller?.withdrawMethod ? (
+                  <div>
+                    <div className="min-[800px]:flex w-full justify-between items-center">
+                      <div className="min-[800px]:w-[50%]">
+                        <h5>
+                          Account Number:{" "}
+                          {"*".repeat(
+                            seller?.withdrawMethod.bankAccountNumber.length - 3
+                          ) +
+                            seller?.withdrawMethod.bankAccountNumber.slice(-3)}
+                        </h5>
+                        <h5>Bank Name: {seller?.withdrawMethod.bankName}</h5>
+                      </div>
+                      <div className="min-[800px]:w-[50%]">
+                        <AiOutlineDelete
+                          size={25}
+                          className="cursor-pointer"
+                          onClick={() => deleteHandler()}
+                        />
+                      </div>
+                    </div>
+                    <br />
+                    <h4>Available Balance: {availableBalance}$</h4>
+                    <br />
+                    <div className="min-[800px]:flex w-full items-center">
+                      <input
+                        type="number"
+                        placeholder="Amount..."
+                        value={withdrawAmount}
+                        onChange={(e) => setWithdrawAmount(e.target.value)}
+                        className="min-[800px]:w-[100px] w-full border min-[800px]:mr-3 p-1 rounded"
+                      />
+                      <div
+                        className={`${styles.button} !h-[42px] text-white`}
+                        onClick={withdrawHandler}
+                      >
+                        Withdraw
+                      </div>
+                    </div>
+                  </div>
                 ) : (
                   <div>
                     <p className="text-[18px] pt-2">
-                      No Payment Methods Available!
+                      No Withdraw Methods Available!
                     </p>
                     <div className="w-full flex items-center">
                       <div
