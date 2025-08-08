@@ -1,6 +1,6 @@
 import AdminHeader from "../components/Admin/Layout/AdminHeader";
 import AdminSideBar from "../components/Admin/Layout/AdminSideBar";
-import AllEvents from "../components/Admin/AllEvents";
+import AllWithdraw from "../components/Admin/AllWithdraw";
 
 const AdminDashboardWithdrawPage = () => {
   return (
@@ -11,7 +11,7 @@ const AdminDashboardWithdrawPage = () => {
           <div className="w-[80px] min-[800px]:w-[330px]">
             <AdminSideBar active={7} />
           </div>
-          <AllEvents />
+          <AllWithdraw />
         </div>
       </div>
     </div>
