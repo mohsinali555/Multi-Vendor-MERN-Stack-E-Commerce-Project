@@ -102,14 +102,14 @@ const UserOrderDetails = () => {
               </h5>
             </div>
 
-            {item.isReviewed || item.status !== "delivered" ? null : (
+            {!item.isReviewed && data?.status === "Delivered" ? (
               <div
                 className={`${styles.button} text-[#fff]`}
                 onClick={() => setOpen(true) || setSelectedItem(item)}
               >
                 Write a review
               </div>
-            )}
+            ) : null}
           </div>
         ))}
 

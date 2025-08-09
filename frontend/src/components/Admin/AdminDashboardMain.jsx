@@ -1,4 +1,3 @@
-import styles from "../../styles/styles";
 import { AiOutlineArrowRight, AiOutlineMoneyCollect } from "react-icons/ai";
 import { MdBorderClear } from "react-icons/md";
 import styles from "../../styles/styles";
