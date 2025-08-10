@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "../../styles/styles";
 import {
   AiFillHeart,
@@ -12,10 +12,10 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   removeFromWishlist,
   addToWishlist,
-} from "../../../redux/actions/wishlist";
+} from "../../redux/actions/wishlist";
 import { addToCart } from "../../../redux/actions/cart";
 import { toast } from "react-toastify";
-import { navItems } from "../../static/data";
+import { getAllProductsShop } from "../../redux/actions/product";
 import Ratings from "./Ratings";
 import axios from "axios";
 
@@ -118,11 +118,11 @@ const ProductDetails = ({ data }) => {
             <div className="block w-full min-[800px]:flex">
               <div className="w-full min-[800px]:w-[50%]">
                 <img
-                  src={`${backend_url}${data && data.images[select]}`}
+                  src={`${backend_url}${data && data.images[select]?.url}`}
                   alt=""
                   className="w-[80%]"
                 />
-                <div className="w-full 800px:w-[50%]">
+                <div className="w-full min-[800px]:w-[50%]">
                   <img
                     src={`${data && data.images[select]?.url}`}
                     alt=""
@@ -317,7 +317,7 @@ const ProductDetailsInfo = ({
             data.reviews.map((item, index) => (
               <div className="w-full flex my-2">
                 <img
-                  src={`${backend_url}/${item.user.avatar.url}`}
+                  src={`${backend_url}/${item?.user?.avatar?.url}`}
                   alt=""
                   className="w-[50px] h-[50px] rounded-full"
                 />
@@ -350,21 +350,21 @@ const ProductDetailsInfo = ({
                   alt=""
                 />
                 <div className="pl-3">
-                  <h3 className={`${styles.shop_name}`}>{data.shop.name}</h3>
+                  <h3 className={`${styles.shop_name}`}>{data?.shop.name}</h3>
                   <h5 className="pb-2 text-[15px]">
-                    ( averageRating)/5 Ratings
+                    ({averageRating}/5) Ratings
                   </h5>
                 </div>
               </div>
             </Link>
-            <p className="pt-2">{data.shop.description}</p>
+            <p className="pt-2">{data?.shop?.description}</p>
           </div>
           <div className="w-full min-[800px]:w-[50%] mt-5 min-[800px]:flex flex-col items-end">
             <div className="text-left">
               <h5 className="font-[600]">
                 Joined on:{" "}
                 <span className="font-[500]">
-                  {data.shop?.createdAt?.slice(0, 10)}
+                  {data?.shop?.createdAt?.slice(0, 10)}
                 </span>
               </h5>
               <h5 className="font-[600] pt-3">

@@ -1,7 +1,7 @@
-import { data, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styles from "../../styles/styles";
 import { useState } from "react";
-import { categoriesData, productData } from "../../static/data";
+import { categoriesData } from "../../static/data";
 import {
   AiOutlineHeart,
   AiOutlineSearch,
@@ -85,7 +85,7 @@ const Header = ({ activeHeading }) => {
                       <Link to={`/product/${i._id}`}>
                         <div className="w-full flex items-start py-1">
                           <img
-                            src={`${backend_url}${i.images[0]}`}
+                            src={`${backend_url}${i.images[0]?.url}`}
                             alt=""
                             className="w-[40px] h-[40px] mr-[10px]"
                           />
@@ -149,7 +149,7 @@ const Header = ({ activeHeading }) => {
                 className="relative cursor-pointer mr-[15px]"
                 onClick={() => setOpenWishlist(true)}
               >
-                <AiOutlineHeart size={30} color="rgb(255 255 255/83%)" />
+                <AiOutlineHeart size={30} color="rgb(255 255 255 / 83%)" />
                 <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
                   {wishlist && wishlist.length}
                 </span>
@@ -161,7 +161,10 @@ const Header = ({ activeHeading }) => {
                 className="relative cursor-pointer mr-[15px]"
                 onClick={() => setOpenCart(true)}
               >
-                <AiOutlineShoppingCart size={30} color="rgb(255 255 255/83%)" />
+                <AiOutlineShoppingCart
+                  size={30}
+                  color="rgb(255 255 255 / 83%))"
+                />
                 <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
                   {cart && cart.length}
                 </span>
@@ -174,7 +177,7 @@ const Header = ({ activeHeading }) => {
                   <Link to="/profile">
                     {isAuthenticated && user && user.avatar?.url && (
                       <img
-                        src={`${backend_url}${user.avatar.url}`}
+                        src={`${backend_url}${user?.avatar?.url}`}
                         className="w-[35px] h-[35px] rounded-full object-cover"
                         alt="avatar"
                       />
@@ -281,7 +284,7 @@ const Header = ({ activeHeading }) => {
                         <Link to={`/product/${Product_name}`}>
                           <div className="flex items-center">
                             <img
-                              src={i.image_Url[0].url}
+                              src={i.image_Url[0]?.url}
                               alt=""
                               className="w-[50px] mr-2"
                             />
@@ -306,13 +309,14 @@ const Header = ({ activeHeading }) => {
               <br />
               <br />
               <br />
+
               <div className="flex w-full justify-center">
                 {isAuthenticated ? (
                   <div>
                     <Link to="/profile">
                       <img
-                        src={`${backend_url}${user.avatar.url}`}
-                        className="w-[80px] h-[80px] rounded-full border-[3px] border-[#0eae88] object-cover"
+                        src={`${backend_url}${user.avatar?.url}`}
+                        className="w-[60px] h-[60px] rounded-full border-[3px] border-[#0eae88]"
                         alt=""
                       />
                     </Link>
