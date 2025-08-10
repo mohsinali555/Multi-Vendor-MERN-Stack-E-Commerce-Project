@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getAllOrdersOfAdmin } from "../../redux/actions/order";
 import { getAllSellers } from "../../redux/actions/sellers";
+import Loader from "../Layout/Loader";
 
 const AdminDashboardMain = () => {
   const dispatch = useDispatch();
