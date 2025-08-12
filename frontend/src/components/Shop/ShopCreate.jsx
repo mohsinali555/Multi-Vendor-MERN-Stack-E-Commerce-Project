@@ -4,7 +4,6 @@ import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { server } from "../../server";
 import { RxAvatar } from "react-icons/rx";
 
@@ -17,7 +16,6 @@ const ShopCreate = () => {
   const [avatar, setAvatar] = useState();
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -196,7 +194,7 @@ const ShopCreate = () => {
             <div>
               <label
                 htmlFor="avatar"
-                className="block  text-gray-700 text-sm font-medium"
+                className="block text-gray-700 text-sm font-medium"
               ></label>
               <div className="mt-2 flex items-center">
                 <span className="inline-block h-8 w-8 rounded-full overflow-hidden">

@@ -6,6 +6,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import getAllOrdersOfShop from "../../redux/actions/order";
 import { backend_url, server } from "../../server";
 import { toast } from "react-toastify";
+import { server } from "../../serverr";
 
 const OrderDtails = () => {
   const { orders, isLoading } = useSelector((state) => state.order);
@@ -101,7 +102,7 @@ const OrderDtails = () => {
 
       <div className="border-t w-full text-right">
         <h5 className="pt-3 text-[18px]">
-          Total Price: <strong>US${data.totalPrice}</strong>
+          Total Price: <strong>US${data?.totalPrice}</strong>
         </h5>
       </div>
       <br />
@@ -120,7 +121,10 @@ const OrderDtails = () => {
         </div>
         <div className="w-full min-[800px]:w-[40%]">
           <h4 className="pt-3 text-[20px]">Payment Info:</h4>
-          {data?.paymentInfo?.status ? data?.paymentInfo?.status : "Not Paid"}
+          <h4>
+            Status:{" "}
+            {data?.paymentInfo?.status ? data?.paymentInfo?.status : "Not Paid"}
+          </h4>
         </div>
       </div>
       <br />
