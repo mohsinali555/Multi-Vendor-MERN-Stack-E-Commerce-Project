@@ -5,7 +5,6 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { RxCross1 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { deleteProduct } from "../../redux/actions/product";
 import Loader from "../Layout/Loader";
 import styles from "../../styles/styles";
 import { server } from "../../server";
@@ -112,9 +111,10 @@ const AllCoupons = () => {
   coupons &&
     coupons.forEach((item) => {
       row.push({
-        id: item._id,
-        name: item.name,
-        price: item.value + " %",
+        id: item?._id,
+        name: item?.name,
+        price: item?.value + " %",
+        sold: 10,
       });
     });
 

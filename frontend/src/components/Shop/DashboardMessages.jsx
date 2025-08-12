@@ -12,7 +12,7 @@ const ENDPOINT = "http://localhost:4000/";
 const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
 const DashboardMessages = () => {
-  const { seller } = useSelector((state) => state.seller);
+  const { seller, isLoading } = useSelector((state) => state.seller);
   const [conversations, setConversations] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [currentChat, setCurrentChat] = useState();
@@ -57,12 +57,12 @@ const DashboardMessages = () => {
       }
     };
     getCoversation();
-  }, [seller]);
+  }, [seller, messages]);
 
   useEffect(() => {
     if (seller) {
-      const userId = seller?._id;
-      socketId.emit("addUser", userId);
+      const sellerId = seller?._id;
+      socketId.emit("addUser", sellerId);
       socketId.on("getUsers", (data) => {
         setOnlineUsers(data);
       });
@@ -220,6 +220,7 @@ const DashboardMessages = () => {
                 setUserData={setUserData}
                 online={onlineCheck(item)}
                 setActiveStatus={setActiveStatus}
+                isLoading={isLoading}
               />
             ))}
         </>
@@ -253,6 +254,7 @@ const MessageList = ({
   setUserData,
   online,
   setActiveStatus,
+  isLoading,
 }) => {
   const [active, setActive] = useState(0);
   const [user, setUser] = useState([]);
@@ -306,7 +308,7 @@ const MessageList = ({
         <div className="pl-3">
           <h1 className="text-[18px]">{user?.name}</h1>
           <p className="text-[16px] text-[#000c]">
-            {data?.lastMessageId !== user?._id
+            {!isLoading && data?.lastMessageId !== user?._id
               ? "You:"
               : user?.name.split(" ")[0] + ": "}
             {data?.lastMessage}
@@ -371,7 +373,7 @@ const SellerInbox = ({
                   )}
                   {item.images && (
                     <img
-                      src={`${backend_url}${item.images}`}
+                      src={`${backend_url}${item.images?.url}`}
                       className="w-[300px] h-[300px] object-cover rounded-[10px] mr-2"
                     />
                   )}

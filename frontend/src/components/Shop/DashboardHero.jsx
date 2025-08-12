@@ -31,7 +31,9 @@ const DashboardHero = () => {
       minWidth: 130,
       flex: 0.7,
       cellClassName: (params) => {
-        return params.value === "Delivered" ? "greenColor" : "redColor";
+        return params.getValue(params.id, "status") === "Delivered"
+          ? "greenColor"
+          : "redColor";
       },
     },
     {
@@ -60,7 +62,7 @@ const DashboardHero = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/order/${params.id}`}>
+            <Link to={`/dashboard/order/${params.id}`}>
               <Button>
                 <AiOutlineArrowRight size={20} />
               </Button>
@@ -76,10 +78,10 @@ const DashboardHero = () => {
   orders &&
     orders.forEach((item) => {
       row.push({
-        id: item._id,
-        itemsQty: item.cart.length,
-        total: "US$ " + item.totalPrice,
-        status: item.status,
+        id: item?._id,
+        itemsQty: item?.cart.reduce((acc, item) => acc + item.qty, 0),
+        total: "US$ " + item?.totalPrice,
+        status: item?.status,
       });
     });
 
@@ -115,7 +117,7 @@ const DashboardHero = () => {
             <h3
               className={`${styles.productTitle} !text-[18px] leading-5 !font-[400] text-[#00000085]`}
             >
-              Account Orders
+              All Orders
             </h3>
           </div>
           <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">

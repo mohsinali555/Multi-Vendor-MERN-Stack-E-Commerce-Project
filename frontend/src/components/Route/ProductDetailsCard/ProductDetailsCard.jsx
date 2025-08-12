@@ -15,6 +15,7 @@ import {
   addToWishlist,
   removeFromwWishlist,
 } from "../../../redux/actions/wishlist";
+import { backend_url } from "../../../server";
 
 const ProductDetailsCard = ({ setOpen, data }) => {
   const { cart } = useSelector((state) => state.cart);
@@ -22,7 +23,6 @@ const ProductDetailsCard = ({ setOpen, data }) => {
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
-  // const [select, setSelect] = useState(false);
 
   const handleMessageSubmit = () => {};
 
@@ -81,11 +81,16 @@ const ProductDetailsCard = ({ setOpen, data }) => {
 
             <div className="block w-full min-[800px]:flex">
               <div className="w-full min-[800px]:w-[50%]">
-                <img src={`${data.images && data.images[0]?.url}`} alt="" />
+                <img
+                  src={`${backend_url}${data.images && data.images[0]?.url}`}
+                  alt=""
+                />
                 <div className="flex">
                   <Link to={`/shop/preview/${data.shop._id}`} className="flex">
                     <img
-                      src={`${data.images && data.images[0]?.url}`}
+                      src={`${backend_url}${
+                        data.images && data.images[0]?.url
+                      }`}
                       alt=""
                       className="w-[50px] h-[50px] rounded-full mr-2"
                     />

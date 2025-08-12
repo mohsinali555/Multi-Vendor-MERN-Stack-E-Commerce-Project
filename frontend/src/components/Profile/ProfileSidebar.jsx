@@ -128,7 +128,7 @@ const ProfileSidebar = ({ active, setActive }) => {
         <Link to="/admin/dashboard">
           <div
             className="flex items-center cursor-pointer w-full mb-8"
-            onClick={() => setActive(7)}
+            onClick={() => setActive(8)}
           >
             <MdOutlineAdminPanelSettings
               size={20}

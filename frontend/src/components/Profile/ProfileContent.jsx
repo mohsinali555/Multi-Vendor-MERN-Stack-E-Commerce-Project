@@ -18,6 +18,7 @@ import {
   deleteUserAddress,
   loadUser,
   updateUserAddress,
+  updateUserInformation,
 } from "../../redux/actions/user";
 import { getAllOrdersOfUser } from "../../redux/actions/order";
 import axios from "axios";
@@ -78,13 +79,11 @@ const ProfileContent = ({ active }) => {
         <>
           <div className="flex justify-center w-full">
             <div className="relative">
-              {isAuthenticated && user && user.avatar?.url && (
-                <img
-                  src={`${backend_url}${user.avatar.url}`}
-                  className="w-[150px] h-[150px] rounded-full object-cover border-[3px] border-[#3ad132]"
-                  alt="avatar"
-                />
-              )}
+              <img
+                src={`${backend_url}${user?.avatar?.url}`}
+                className="w-[150px] h-[150px] rounded-full object-cover border-[3px] border-[#3ad132]"
+                alt="avatar"
+              />
 
               <div className="w-[30px] h-[30px] bg-[#E3E9EE] rounded-full flex items-center justify-center cursor-pointer absolute bottom-[5px] right-[5px]">
                 <input
@@ -216,7 +215,9 @@ const AllOrders = () => {
       minWidth: 130,
       flex: 0.7,
       cellClassName: (params) => {
-        return params.value === "Delivered" ? "greenColor" : "redColor";
+        return params.getValue(params.id, "status") === "Delivered"
+          ? "greenColor"
+          : "redColor";
       },
     },
     {
@@ -261,10 +262,10 @@ const AllOrders = () => {
   orders &&
     orders.forEach((item) => {
       row.push({
-        id: item._id,
-        itemsQty: item.cart.length,
-        total: "US$ " + item.totalPrice,
-        status: item.status,
+        id: item?._id,
+        itemsQty: item?.cart?.length,
+        total: "US$ " + item?.totalPrice,
+        status: item?.status,
       });
     });
 
@@ -308,7 +309,9 @@ const AllRefundOrders = () => {
       minWidth: 130,
       flex: 0.7,
       cellClassName: (params) => {
-        return params.value === "Delivered" ? "greenColor" : "redColor";
+        return params.getValue(params.id, "status") === "Delivered"
+          ? "greenColor"
+          : "redColor";
       },
     },
     {
@@ -353,10 +356,10 @@ const AllRefundOrders = () => {
   eligibleOrders &&
     eligibleOrders.forEach((item) => {
       row.push({
-        id: item._id,
-        itemsQty: item.cart.length,
-        total: "US$ " + item.totalPrice,
-        status: item.status,
+        id: item?._id,
+        itemsQty: item?.cart?.length,
+        total: "US$ " + item?.totalPrice,
+        status: item?.status,
       });
     });
   return (
@@ -396,7 +399,9 @@ const TrackOrder = () => {
       minWidth: 130,
       flex: 0.7,
       cellClassName: (params) => {
-        return params.value === "Delivered" ? "greenColor" : "redColor";
+        return params.getValue(params.id, "status") === "Delivered"
+          ? "greenColor"
+          : "redColor";
       },
     },
     {
@@ -441,10 +446,10 @@ const TrackOrder = () => {
   orders &&
     orders.forEach((item) => {
       row.push({
-        id: item._id,
-        itemsQty: item.cart.length,
-        total: "US$ " + item.totalPrice,
-        status: item.status,
+        id: item?._id,
+        itemsQty: item?.cart?.length,
+        total: "US$ " + item?.totalPrice,
+        status: item?.status,
       });
     });
 
@@ -467,30 +472,30 @@ const TrackOrder = () => {
   );
 };
 
-const passwordChangeHandler = async (e) => {
-  e.preventDefault();
-
-  await axios
-    .put(
-      `${server}/user/update-user-password`,
-      { oldPassword, newPassword, confirmPassword },
-      { withCredentials: true }
-    )
-    .then((res) => {
-      toast.success(res.data.success);
-      setOldPassword("");
-      setNewPassword("");
-      setConfirmPassword("");
-    })
-    .catch((error) => {
-      toast.error(error.response.data.message);
-    });
-};
-
 const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const passwordChangeHandler = async (e) => {
+    e.preventDefault();
+
+    await axios
+      .put(
+        `${server}/user/update-user-password`,
+        { oldPassword, newPassword, confirmPassword },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        toast.success(res.data.success);
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
+      });
+  };
   return (
     <div className="w-full px-5">
       <h1 className="block text-[25px] text-center font-[600] text-[#000000ba] pb-2">
@@ -595,7 +600,8 @@ const Address = () => {
   };
 
   const handleDelete = (item) => {
-    dispatch(deleteUserAddress(item._id));
+    const id = item._id;
+    dispatch(deleteUserAddress(id));
   };
 
   return (
@@ -691,7 +697,7 @@ const Address = () => {
                   <div className="w-full pb-2">
                     <label className="block pb-2">Zip Code</label>
                     <input
-                      type="nummber"
+                      type="number"
                       className={`${styles.input}`}
                       required
                       value={zipCode}

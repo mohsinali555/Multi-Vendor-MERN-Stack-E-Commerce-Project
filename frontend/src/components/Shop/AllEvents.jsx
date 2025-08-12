@@ -11,13 +11,10 @@ const AllEvents = () => {
   const { events, isLoading } = useSelector((state) => state.events);
   const { seller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
-  console.log("Events in Redux:", events);
 
   useEffect(() => {
-    if (seller && seller._id) {
-      dispatch(getAllEventsShop(seller._id));
-    }
-  }, [dispatch, seller]);
+    dispatch(getAllEventsShop(seller._id));
+  }, [dispatch]);
 
   const handleDelete = (id) => {
     dispatch(deleteEvent(id));
@@ -61,9 +58,11 @@ const AllEvents = () => {
       type: "number",
       sortable: false,
       renderCell: (params) => {
+        const d = params.row.name;
+        const product_name = d.replace(/\s+/g, "-");
         return (
           <>
-            <Link to={`/product/${params.id}`}>
+            <Link to={`/product/${product_name}`}>
               <Button>
                 <AiOutlineEye size={20} />
               </Button>
