@@ -13,12 +13,15 @@ export const addToWishlist = (data) => async (dispatch, getState) => {
 };
 
 // remove from wishlist
-export const removeFromwWishlist = (data) => async (dispatch, getState) => {
+export const removeFromWishlist = (data) => async (dispatch, getState) => {
   dispatch({
     type: "removeFromWishlist",
     payload: data._id,
   });
 
-  localStorage.setItem("wishlistItems", JSON.stringify(getState().cart.cart));
+  localStorage.setItem(
+    "wishlistItems",
+    JSON.stringify(getState().wishlist.wishlist)
+  );
   return data;
 };

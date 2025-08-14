@@ -1,6 +1,7 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Signup from "../components/Signup/Signup.jsx";
 import { useSelector } from "react-redux";
+import Signup from "../components/Signup/Signup";
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const SignupPage = () => {
       navigate("/");
     }
   }, []);
+
   return (
     <div>
       <Signup />

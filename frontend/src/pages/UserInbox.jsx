@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { AiOutlineArrowRight, AiOutlineSend } from "react-icons/ai";
 import { TfiGallery } from "react-icons/tfi";
 import styles from "../styles/styles";
-// const ENDPOINT = "https://socket-ecommerce-tu68.onrender.com/";
 const ENDPOINT = "http://localhost:4000/";
 const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
@@ -63,8 +62,8 @@ const UserInbox = () => {
 
   useEffect(() => {
     if (user) {
-      const userId = user?._id;
-      socketId.emit("addUser", userId);
+      const sellerId = user?._id;
+      socketId.emit("addUser", sellerId);
       socketId.on("getUsers", (data) => {
         setOnlineUsers(data);
       });
@@ -98,17 +97,17 @@ const UserInbox = () => {
     e.preventDefault();
 
     const message = {
-      sender: user._id,
+      sender: user?._id,
       text: newMessage,
       conversationId: currentChat._id,
     };
 
     const receiverId = currentChat.members.find(
-      (member) => member !== user._id
+      (member) => member !== user?._id
     );
 
     socketId.emit("sendMessage", {
-      senderId: user._id,
+      senderId: user?._id,
       receiverId,
       text: newMessage,
     });
@@ -222,6 +221,7 @@ const UserInbox = () => {
                 setUserData={setUserData}
                 online={onlineCheck(item)}
                 setActiveStatus={setActiveStatus}
+                loading={loading}
               />
             ))}
         </>
@@ -255,6 +255,7 @@ const MessageList = ({
   setUserData,
   online,
   setActiveStatus,
+  loading,
 }) => {
   const [active, setActive] = useState(0);
   const [user, setUser] = useState([]);
@@ -272,7 +273,6 @@ const MessageList = ({
     const getUser = async () => {
       try {
         const res = await axios.get(`${server}/shop/get-shop-info/${userId}`);
-
         setUser(res.data.user);
       } catch (error) {
         console.log(error);
@@ -280,6 +280,7 @@ const MessageList = ({
     };
     getUser();
   }, [me, data]);
+
   return (
     <div
       className={`w-full flex px-3 ${
@@ -295,7 +296,7 @@ const MessageList = ({
     >
       <div className="relative">
         <img
-          src={`${backend_url}${userData?.avatar?.url}`}
+          src={`${backend_url}/${userData?.avatar?.url}`}
           alt=""
           className="w-[50px] h-[50px] rounded-full"
         />
@@ -309,9 +310,9 @@ const MessageList = ({
         <div className="pl-3">
           <h1 className="text-[18px]">{userData?.name}</h1>
           <p className="text-[16px] text-[#000c]">
-            {data?.lastMessageId !== userData?._id
+            {!loading && data?.lastMessageId !== userData?._id
               ? "You:"
-              : userData?.name.split(" ")[0] + ": "}
+              : userData?.name.split(" ")[0] + ": "}{" "}
             {data?.lastMessage}
           </p>
         </div>
@@ -338,7 +339,7 @@ const SellerInbox = ({
       <div className="w-full flex p-3 items-center justify-between bg-slate-200">
         <div className="flex">
           <img
-            src={`${userData?.avatar?.url}`}
+            src={`${backend_url}/${userData?.avatar?.url}`}
             alt=""
             className="w-[60px] h-[60px] rounded-full"
           />
@@ -366,14 +367,14 @@ const SellerInbox = ({
             >
               {item.sender !== sellerId && (
                 <img
-                  src={`${userData?.avatar?.url}`}
+                  src={`${backend_url}/${userData?.avatar?.url}`}
                   className="w-[40px] h-[40px] rounded-full mr-3"
                   alt=""
                 />
               )}
               {item.images && (
                 <img
-                  src={`${item.images?.url}`}
+                  src={`${backend_url}/${item.images?.url}`}
                   className="w-[300px] h-[300px] object-cover rounded-[10px] ml-2 mb-2"
                 />
               )}

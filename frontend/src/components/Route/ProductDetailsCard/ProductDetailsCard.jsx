@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import { addToCart } from "../../../redux/actions/cart";
 import {
   addToWishlist,
-  removeFromwWishlist,
+  removeFromWishlist,
 } from "../../../redux/actions/wishlist";
 import { backend_url } from "../../../server";
 
@@ -60,7 +60,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
 
   const removeFromWishlistHandler = (data) => {
     setClick(!click);
-    dispatch(removeFromwWishlist(data));
+    dispatch(removeFromWishlist(data));
   };
 
   const addToWishlistHandler = (data) => {

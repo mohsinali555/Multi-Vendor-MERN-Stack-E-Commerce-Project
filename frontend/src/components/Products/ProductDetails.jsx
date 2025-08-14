@@ -13,7 +13,7 @@ import {
   removeFromWishlist,
   addToWishlist,
 } from "../../redux/actions/wishlist";
-import { addToCart } from "../../../redux/actions/cart";
+import { addToCart } from "../../redux/actions/cart";
 import { toast } from "react-toastify";
 import { getAllProductsShop } from "../../redux/actions/product";
 import Ratings from "./Ratings";

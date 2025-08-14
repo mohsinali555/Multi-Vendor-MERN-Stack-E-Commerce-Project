@@ -43,18 +43,18 @@ import {
   AdminDashboardProductsPage,
   AdminDashboardEventsPage,
   AdminDashboardWithdrawPage,
-} from "./routes/AdminRoutes";
+} from "./routes/AdminRoutes.js";
 import "./App.css";
 import { ToastContainer, Bounce } from "react-toastify";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Store from "./redux/store.js";
 import { loadSeller, loadUser } from "./redux/actions/user";
-import { getAllProducts } from "./redux/actions/product";
+import { getAllProductsOfShop } from "./redux/actions/product";
 import { getAllEvents } from "./redux/actions/event";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import SellerProtectedRoute from "./routes/SellerProtectedRoute";
 import AdminProtectedRoute from "./routes/AdminProtectedRoute";
-import { ShopHomePage } from "./ShopRoutes";
+import { ShopHomePage } from "./ShopRoutes.js";
 import axios from "axios";
 import { server } from "./server";
 import { Elements } from "@stripe/react-stripe-js";
@@ -71,7 +71,7 @@ const App = () => {
   useEffect(() => {
     Store.dispatch(loadUser());
     Store.dispatch(loadSeller());
-    Store.dispatch(getAllProducts());
+    Store.dispatch(getAllProductsOfShop());
     Store.dispatch(getAllEvents());
     getStripeApikey();
   }, []);

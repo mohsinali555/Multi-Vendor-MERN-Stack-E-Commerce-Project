@@ -3,10 +3,9 @@ import styles from "../../styles/styles";
 import { BsFillBagFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import getAllOrdersOfShop from "../../redux/actions/order";
+import { getAllOrdersOfShop } from "../../redux/actions/order";
 import { backend_url, server } from "../../server";
 import { toast } from "react-toastify";
-import { server } from "../../serverr";
 
 const OrderDtails = () => {
   const { orders, isLoading } = useSelector((state) => state.order);

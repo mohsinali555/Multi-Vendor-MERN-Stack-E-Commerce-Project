@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import ShopLogin from "../components/Shop/ShopLogin";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import ShopLogin from "../components/Shop/ShopLogin";
 
 const ShopLoginPage = () => {
   const navigate = useNavigate();
