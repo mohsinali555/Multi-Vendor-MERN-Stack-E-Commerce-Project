@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getAllOrdersOfShop } from "../../redux/actions/order";
 import { getAllProductsOfShop } from "../../redux/actions/product";
 

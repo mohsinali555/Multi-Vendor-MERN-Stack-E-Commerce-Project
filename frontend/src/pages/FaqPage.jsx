@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Footer from "../components/Layout/Footer";
 import Header from "../components/Layout/Header";
 import styles from "../styles/styles";
@@ -29,7 +29,6 @@ const Faq = () => {
       <h2 className="text-3xl font-bold text-gray-900 mb-8">FAQ</h2>
       <div className="mx-auto space-y-4">
         {/* single Faq */}
-
         <div className="border-b border-gray-200 pb-4">
           <button
             className="flex items-center justify-between w-full"

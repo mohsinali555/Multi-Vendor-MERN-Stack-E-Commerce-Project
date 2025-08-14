@@ -111,7 +111,7 @@ const ShopSettings = () => {
             </div>
             <input
               type="name"
-              placeholder={`${seller.name}`}
+              placeholder={`${seller?.name}`}
               value={name}
               onChange={(e) => setName(e.target.value)}
               className={`${styles.input} !w-[95%] bg-white mb-4 min-[800px]:mb-0`}

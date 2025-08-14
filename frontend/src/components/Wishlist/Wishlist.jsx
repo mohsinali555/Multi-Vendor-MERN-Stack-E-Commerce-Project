@@ -1,12 +1,11 @@
+import { useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import styles from "../../styles/styles";
-import { IoBagHandleOutline } from "react-icons/io5";
-import { useState } from "react";
 import { BsCartPlus } from "react-icons/bs";
-import { data, Link } from "react-router-dom";
 import { AiOutlineHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, removeFromWishlist } from "../../redux/actions/wishlist";
+import { removeFromWishlist } from "../../redux/actions/wishlist";
+import { addToCart } from "../../redux/actions/cart";
 import { backend_url } from "../../server";
 
 const Wishlist = ({ setOpenWishlist }) => {
@@ -29,9 +28,13 @@ const Wishlist = ({ setOpenWishlist }) => {
         {wishlist && wishlist.length === 0 ? (
           <div className="w-full h-screen flex items-center justify-center">
             <div className="flex w-full justify-end pt-5 pr-5 fixed top-3 right-3">
-              <RxCross1 size={25} onClick={() => setOpenWishlist(false)} />
+              <RxCross1
+                size={25}
+                className="cursor-pointer"
+                onClick={() => setOpenWishlist(false)}
+              />
             </div>
-            <h5>Wishlist Item is empty</h5>
+            <h5>Wishlist Item is empty!</h5>
           </div>
         ) : (
           <>
@@ -43,6 +46,7 @@ const Wishlist = ({ setOpenWishlist }) => {
                   onClick={() => setOpenWishlist(false)}
                 />
               </div>
+
               {/* Item length */}
               <div className={`${styles.normalFlex} p-4`}>
                 <AiOutlineHeart size={25} />
@@ -84,7 +88,7 @@ const CartSingle = ({ data, removeFromWishlistHandler, addToCartHandler }) => {
           onClick={() => removeFromWishlistHandler(data)}
         />
         <img
-          src={`${backend_url}${data?.images[0]}`}
+          src={`${backend_url}/${data?.images[0]?.url}`}
           alt=""
           className="w-[130px] h-min ml-2 mr-2 rounded-[5px]"
         />
@@ -96,7 +100,14 @@ const CartSingle = ({ data, removeFromWishlistHandler, addToCartHandler }) => {
           </h4>
         </div>
 
-        <div></div>
+        <div>
+          <BsCartPlus
+            size={20}
+            className="cursor-pointer"
+            tile="Add to cart"
+            onClick={() => addToCartHandler(data)}
+          />
+        </div>
       </div>
     </div>
   );

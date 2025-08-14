@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { BsFillBagFill, BsFillNutFill } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import { BsFillBagFill } from "react-icons/bs";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../styles/styles";
 import { getAllOrdersOfUser } from "../redux/actions/order";
-import { server } from "../server";
+import { backend_url, server } from "../server";
 import { RxCross1 } from "react-icons/rx";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import axios from "axios";
@@ -23,7 +23,7 @@ const UserOrderDetails = () => {
 
   useEffect(() => {
     dispatch(getAllOrdersOfUser(user._id));
-  }, [dispatch]);
+  }, [dispatch, user._id]);
 
   const data = orders && orders.find((item) => item._id === id);
 
@@ -76,7 +76,7 @@ const UserOrderDetails = () => {
       </div>
 
       <div className="w-full flex items-center justify-between pt-6">
-        <h5>
+        <h5 className="text-[#00000084]">
           Order ID: <span>#{data?._id?.slice(0, 8)}</span>
         </h5>
         <h5 className="text-[#00000084]">
@@ -130,7 +130,7 @@ const UserOrderDetails = () => {
             <br />
             <div className="w-full flex">
               <img
-                src={`${selectedItem?.images[0]?.url}`}
+                src={`${backend_url}/${selectedItem?.images[0]?.url}`}
                 alt=""
                 className="w-[80px] h-[80px]"
               />
@@ -201,7 +201,7 @@ const UserOrderDetails = () => {
 
       <div className="border-t w-full text-right">
         <h5 className="pt-3 text-[18px]">
-          Total Price: <strong>US${data.totalPrice}</strong>
+          Total Price: <strong>US${data?.totalPrice}</strong>
         </h5>
       </div>
       <br />

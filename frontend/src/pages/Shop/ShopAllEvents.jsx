@@ -1,6 +1,6 @@
 import DashboardHeader from "../../components/Shop/Layout/DashboardHeader";
 import DashboardSideBar from "../../components/Shop/Layout/DashboardSideBar";
-import AllEvents from "../../components/Shop/AllEvents.jsx";
+import AllEvents from "../../components/Shop/AllEvents";
 
 const ShopAllEvents = () => {
   return (

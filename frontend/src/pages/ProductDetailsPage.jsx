@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams, useSearchParams } from "react-router-dom";
 import Header from "../components/Layout/Header";
 import Footer from "../components/Layout/Footer";
 import ProductDetails from "../components/Products/ProductDetails";
-import { useParams, useSearchParams } from "react-router-dom";
-import { productData } from "../static/data";
 import SuggestedProduct from "../components/Products/SuggestedProduct";
-import { useSelector } from "react-redux";
 
 const ProductDetailsPage = () => {
   const { allProducts } = useSelector((state) => state.products);
