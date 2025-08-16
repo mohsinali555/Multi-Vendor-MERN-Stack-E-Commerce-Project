@@ -1,12 +1,9 @@
 const express = require("express");
-const path = require("path");
 const router = express.Router();
 const User = require("../model/user");
 const cloudinary = require("cloudinary");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
-const { upload } = require("../multer");
 const ErrorHandler = require("../utils/ErrorHandler");
-const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMail");
 const sendToken = require("../utils/jwtToken");
