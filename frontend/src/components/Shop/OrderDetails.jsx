@@ -4,11 +4,12 @@ import { BsFillBagFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAllOrdersOfShop } from "../../redux/actions/order";
-import { backend_url, server } from "../../server";
+import { server } from "../../server";
+import axios from "axios";
 import { toast } from "react-toastify";
 
 const OrderDtails = () => {
-  const { orders, isLoading } = useSelector((state) => state.order);
+  const { orders } = useSelector((state) => state.order);
   const { seller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
   const [status, setStatus] = useState("");
@@ -86,7 +87,7 @@ const OrderDtails = () => {
         data?.cart.map((item, index) => (
           <div className="w-full flex items-center mb-5">
             <img
-              src={`${backend_url}/${item.images[0]?.url}`}
+              src={`${item.images[0]?.url}`}
               alt=""
               className="w-[80px] h-[80px]"
             />

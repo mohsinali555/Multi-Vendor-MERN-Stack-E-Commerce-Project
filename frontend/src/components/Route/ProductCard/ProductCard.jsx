@@ -8,7 +8,6 @@ import {
   AiOutlineHeart,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
-import { backend_url } from "../../../server";
 import { useDispatch, useSelector } from "react-redux";
 import {
   removeFromWishlist,
@@ -70,7 +69,7 @@ const ProductCard = ({ data, isEvent }) => {
           }`}
         >
           <img
-            src={`${backend_url}${data.images && data.images[0]?.url}`}
+            src={`${data.images && data.images[0]?.url}`}
             alt=""
             className="w-full h-[170px] object-contain"
           />

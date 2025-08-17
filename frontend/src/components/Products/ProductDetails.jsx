@@ -7,7 +7,7 @@ import {
   AiOutlineMessage,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
-import { backend_url, server } from "../../server";
+import { server } from "../../server";
 import { useDispatch, useSelector } from "react-redux";
 import {
   removeFromWishlist,
@@ -85,7 +85,9 @@ const ProductDetails = ({ data }) => {
       0
     );
 
-  const averageRating = totalRatings / totalReviewsLength || 0;
+  const avg = totalRatings / totalReviewsLength || 0;
+
+  const averageRating = avg.toFixed(2);
 
   const handleMessageSubmit = async () => {
     if (isAuthenticated) {
@@ -100,7 +102,7 @@ const ProductDetails = ({ data }) => {
           sellerId,
         })
         .then((res) => {
-          navigate(`/conversation/${res.data.coversation._id}`);
+          navigate(`/inbox?${res.data.conversation._id}`);
         })
         .catch((error) => {
           toast.error(error.response.data.message);
@@ -118,38 +120,31 @@ const ProductDetails = ({ data }) => {
             <div className="block w-full min-[800px]:flex">
               <div className="w-full min-[800px]:w-[50%]">
                 <img
-                  src={`${backend_url}${data && data.images[select]?.url}`}
+                  src={`${data && data.images[select]?.url}`}
                   alt=""
                   className="w-[80%]"
                 />
-                <div className="w-full min-[800px]:w-[50%]">
-                  <img
-                    src={`${data && data.images[select]?.url}`}
-                    alt=""
-                    className="w-[80%]"
-                  />
-                  <div className="w-full flex">
-                    {data &&
-                      data.images.map((i, index) => (
-                        <div
-                          className={`${
-                            select === 0 ? "border" : "null"
-                          } cursor-pointer`}
-                        >
-                          <img
-                            src={`${i?.url}`}
-                            alt=""
-                            className="h-[200px] overflow-hidden mr-3 mt-3"
-                            onClick={() => setSelect(index)}
-                          />
-                        </div>
-                      ))}
-                    <div
-                      className={`${
-                        select === 1 ? "border" : "null"
-                      } cursor-pointer`}
-                    ></div>
-                  </div>
+                <div className="w-full flex">
+                  {data &&
+                    data.images.map((i, index) => (
+                      <div
+                        className={`${
+                          select === 0 ? "border" : "null"
+                        } cursor-pointer`}
+                      >
+                        <img
+                          src={`${i?.url}`}
+                          alt=""
+                          className="h-[200px] overflow-hidden mr-3 mt-3"
+                          onClick={() => setSelect(index)}
+                        />
+                      </div>
+                    ))}
+                  <div
+                    className={`${
+                      select === 1 ? "border" : "null"
+                    } cursor-pointer`}
+                  ></div>
                 </div>
               </div>
               <div className="w-full min-[800px]:w-[50%] pt-5">
@@ -172,7 +167,7 @@ const ProductDetails = ({ data }) => {
                     >
                       -
                     </button>
-                    <span className="bg-gray-200 text-gray-800 font-medium px-4 py-[8px]">
+                    <span className="bg-gray-200 text-gray-800 font-medium px-4 py-[11px]">
                       {count}
                     </span>
                     <button
@@ -186,10 +181,10 @@ const ProductDetails = ({ data }) => {
                     {click ? (
                       <AiFillHeart
                         size={30}
-                        className="cursor-pointer "
+                        className="cursor-pointer"
                         onClick={() => removeFromWishlistHandler(data)}
                         color={click ? "red" : "#333"}
-                        title="Remove from Wishlist"
+                        title="Remove from wishlist"
                       />
                     ) : (
                       <AiOutlineHeart
@@ -197,7 +192,7 @@ const ProductDetails = ({ data }) => {
                         className="cursor-pointer"
                         onClick={() => addToWishlistHandler(data)}
                         color={click ? "red" : "#333"}
-                        title="Add to  Wishlist"
+                        title="Add to wishlist"
                       />
                     )}
                   </div>
@@ -214,7 +209,7 @@ const ProductDetails = ({ data }) => {
                 <div className="flex items-center pt-8">
                   <Link to={`/shop/preview/${data?.shop._id}`}>
                     <img
-                      src={`${backend_url}${data?.shop?.avatar?.url}`}
+                      src={`${data?.shop?.avatar?.url}`}
                       alt=""
                       className="w-[50px] h-[50px] rounded-full mr-2"
                     />
@@ -242,16 +237,15 @@ const ProductDetails = ({ data }) => {
               </div>
             </div>
           </div>
-          <div>
-            <ProductDetailsInfo
-              data={data}
-              products={products}
-              totalReviewsLength={totalReviewsLength}
-              averageRating={averageRating}
-            />
-            <br />
-            <br />
-          </div>
+
+          <ProductDetailsInfo
+            data={data}
+            products={products}
+            totalReviewsLength={totalReviewsLength}
+            averageRating={averageRating}
+          />
+          <br />
+          <br />
         </div>
       ) : null}
     </div>
@@ -317,7 +311,7 @@ const ProductDetailsInfo = ({
             data.reviews.map((item, index) => (
               <div className="w-full flex my-2">
                 <img
-                  src={`${backend_url}/${item?.user?.avatar?.url}`}
+                  src={`${item?.user?.avatar?.url}`}
                   alt=""
                   className="w-[50px] h-[50px] rounded-full"
                 />
@@ -345,7 +339,7 @@ const ProductDetailsInfo = ({
             <Link to={`/shop/preview/${data.shop._id}`}>
               <div className="flex items-center">
                 <img
-                  src={`${backend_url}${data?.shop?.avatar?.url}`}
+                  src={`${data?.shop?.avatar?.url}`}
                   className="w-[50px] h-[50px] rounded-full"
                   alt=""
                 />
@@ -359,7 +353,7 @@ const ProductDetailsInfo = ({
             </Link>
             <p className="pt-2">{data?.shop?.description}</p>
           </div>
-          <div className="w-full min-[800px]:w-[50%] mt-5 min-[800px]:flex flex-col items-end">
+          <div className="w-full min-[800px]:w-[50%] mt-5 min-[800px]:mt-0 min-[800px]:flex flex-col items-end">
             <div className="text-left">
               <h5 className="font-[600]">
                 Joined on:{" "}

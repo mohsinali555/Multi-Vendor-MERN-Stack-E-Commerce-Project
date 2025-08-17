@@ -104,9 +104,6 @@ router.put(
         order.cart.forEach(async (o) => {
           await updateOrder(o._id, o.qty);
         });
-        // for (const o of order.cart) {
-        //   await updateOrder(o._id, o.qty);
-        // }
       }
 
       order.status = req.body.status;
@@ -137,8 +134,7 @@ router.put(
       async function updateSellerInfo(amount) {
         const seller = await Shop.findById(req.seller.id);
 
-        seller.availableBalance = amount;
-        // seller.availableBalance += amount;
+        seller.availableBalance += amount;
 
         await seller.save();
       }

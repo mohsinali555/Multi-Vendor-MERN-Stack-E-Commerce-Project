@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { backend_url, server } from "../../server";
+import { server } from "../../server";
 import {
   AiOutlineArrowRight,
   AiOutlineCamera,
@@ -49,27 +49,30 @@ const ProfileContent = ({ active }) => {
   };
 
   const handleImage = async (e) => {
-    const file = e.target.files[0];
-    setAvatar(file);
+    const reader = new FileReader();
 
-    const formData = new FormData();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setAvatar(reader.result);
+        axios
+          .put(
+            `${server}/user/update-avatar`,
+            { avatar: reader.result },
+            {
+              withCredentials: true,
+            }
+          )
+          .then((response) => {
+            dispatch(loadUser());
+            toast.success("avatar updated successfully!");
+          })
+          .catch((error) => {
+            toast.error(error);
+          });
+      }
+    };
 
-    formData.append("image", e.target.files[0]);
-
-    await axios
-      .put(`${server}/user/update-avatar`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        withCredentials: true,
-      })
-      .then((response) => {
-        dispatch(loadUser());
-        toast.success("Avatar updated Successfully!");
-      })
-      .catch((error) => {
-        toast.error(error);
-      });
+    reader.readAsDataURL(e.target.files[0]);
   };
 
   return (
@@ -80,7 +83,7 @@ const ProfileContent = ({ active }) => {
           <div className="flex justify-center w-full">
             <div className="relative">
               <img
-                src={`${backend_url}${user?.avatar?.url}`}
+                src={`${user?.avatar?.url}`}
                 className="w-[150px] h-[150px] rounded-full object-cover border-[3px] border-[#3ad132]"
                 alt="avatar"
               />
@@ -759,7 +762,7 @@ const Address = () => {
       {user &&
         user.addresses.map((item, index) => (
           <div
-            className="w-full bg-white h-[70px] rounded-[4px] flex items-center px-3 shadow justify-between pr-10"
+            className="w-full bg-white h-min min-[800px]:h-[70px] rounded-[4px] flex items-center px-3 shadow justify-between pr-10 mb-5"
             key={index}
           >
             <div className="flex items-center">
@@ -784,6 +787,7 @@ const Address = () => {
             </div>
           </div>
         ))}
+
       {user && user.addresses.length === 0 && (
         <h5 className="text-center pt-8 text-[18px]">
           You not have any saved address!
