@@ -3,7 +3,7 @@ import Header from "../components/Layout/Header";
 import { useSelector } from "react-redux";
 import socketIO from "socket.io-client";
 import { format } from "timeago.js";
-import { backend_url, server } from "../server";
+import { server } from "../server";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineArrowRight, AiOutlineSend } from "react-icons/ai";
@@ -136,7 +136,7 @@ const UserInbox = () => {
     });
 
     await axios
-      .put(`${server}/conversation/update-last-message/${currentChat?._id}`, {
+      .put(`${server}/conversation/update-last-message/${currentChat._id}`, {
         lastMessage: newMessage,
         lastMessageId: user._id,
       })
@@ -153,19 +153,19 @@ const UserInbox = () => {
   }, [messages]);
 
   const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    setImages(file);
-    imageSendingHandler(file);
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setImages(reader.result);
+        imageSendingHandler(reader.result);
+      }
+    };
+
+    reader.readAsDataURL(e.target.files[0]);
   };
 
   const imageSendingHandler = async (e) => {
-    const formData = new FormData();
-
-    formData.append("images", e);
-    formData.append("sender", user._id);
-    formData.append("text", newMessage);
-    formData.append("conversationId", currentChat._id);
-
     const receiverId = currentChat.members.find(
       (member) => member !== user._id
     );
@@ -178,7 +178,12 @@ const UserInbox = () => {
 
     try {
       await axios
-        .post(`${server}/message/create-new-message`, formData)
+        .post(`${server}/message/create-new-message`, {
+          images: e,
+          sender: user._id,
+          text: newMessage,
+          conversationId: currentChat._id,
+        })
         .then((res) => {
           setImages();
           setMessages([...messages, res.data.message]);
@@ -191,7 +196,7 @@ const UserInbox = () => {
 
   const updateLastMessageForImage = async () => {
     await axios.put(
-      `${server}/conversation/update-last-message/${currentChat?._id}`,
+      `${server}/conversation/update-last-message/${currentChat._id}`,
       {
         lastMessage: "Photo",
         lastMessageId: user._id,
@@ -283,7 +288,7 @@ const MessageList = ({
 
   return (
     <div
-      className={`w-full flex px-3 ${
+      className={`w-full flex p-3 px-3 ${
         active === index ? "bg-[#00000010]" : "bg-transparent"
       } cursor-pointer`}
       onClick={() =>
@@ -296,7 +301,7 @@ const MessageList = ({
     >
       <div className="relative">
         <img
-          src={`${backend_url}/${userData?.avatar?.url}`}
+          src={`${user?.avatar?.url}`}
           alt=""
           className="w-[50px] h-[50px] rounded-full"
         />
@@ -308,11 +313,11 @@ const MessageList = ({
       </div>
       <div>
         <div className="pl-3">
-          <h1 className="text-[18px]">{userData?.name}</h1>
+          <h1 className="text-[18px]">{user?.name}</h1>
           <p className="text-[16px] text-[#000c]">
-            {!loading && data?.lastMessageId !== userData?._id
+            {!loading && data?.lastMessageId !== user?._id
               ? "You:"
-              : userData?.name.split(" ")[0] + ": "}{" "}
+              : user?.name.split(" ")[0] + ": "}{" "}
             {data?.lastMessage}
           </p>
         </div>
@@ -339,7 +344,7 @@ const SellerInbox = ({
       <div className="w-full flex p-3 items-center justify-between bg-slate-200">
         <div className="flex">
           <img
-            src={`${backend_url}/${userData?.avatar?.url}`}
+            src={`${userData?.avatar?.url}`}
             alt=""
             className="w-[60px] h-[60px] rounded-full"
           />
@@ -367,14 +372,14 @@ const SellerInbox = ({
             >
               {item.sender !== sellerId && (
                 <img
-                  src={`${backend_url}/${userData?.avatar?.url}`}
+                  src={`${userData?.avatar?.url}`}
                   className="w-[40px] h-[40px] rounded-full mr-3"
                   alt=""
                 />
               )}
               {item.images && (
                 <img
-                  src={`${backend_url}/${item.images?.url}`}
+                  src={`${item.images?.url}`}
                   className="w-[300px] h-[300px] object-cover rounded-[10px] ml-2 mb-2"
                 />
               )}
