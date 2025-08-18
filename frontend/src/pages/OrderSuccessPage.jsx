@@ -14,18 +14,21 @@ const OrderSuccessPage = () => {
 };
 
 const Success = () => {
+  const defaultOptions = {
+    loop: false,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   return (
-    <div>
-      <Lottie
-        animationData={animationData}
-        autoplay
-        style={{ width: 300, height: 300 }}
-      />
+    <div className="flex flex-col items-center">
+      <Lottie options={defaultOptions} height={300} width={300} />
       <h5 className="text-center mb-14 text-[25px] text-[#000000a1]">
         Your order is successful 😍
       </h5>
-      <br />
-      <br />
     </div>
   );
 };

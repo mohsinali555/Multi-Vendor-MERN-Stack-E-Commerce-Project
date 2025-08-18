@@ -28,7 +28,7 @@ export const wishlistReducer = createReducer(initialState, (builder) => {
   builder.addCase("removeFromWishlist", (state, action) => {
     return {
       ...state,
-      wishlist: state.wishlist.filter((i) => i.i_id !== action.payload),
+      wishlist: state.wishlist.filter((i) => i._id !== action.payload),
     };
   });
 });

@@ -27,12 +27,10 @@ export const productReducer = createReducer(initialState, (builder) => {
     .addCase("getAllProductsShopSuccess", (state, action) => {
       state.isLoading = false;
       state.products = action.payload;
-      // state.success = true;
     })
     .addCase("getAllProductsShopFailed", (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
-      // state.success = false;
     })
 
     // delete product of a shop

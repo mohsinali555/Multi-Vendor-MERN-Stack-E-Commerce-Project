@@ -41,7 +41,7 @@ const Payment = () => {
             },
           },
         ],
-        // not needed if a shipping address is actually needed
+
         application_context: {
           shipping_preference: "NO_SHIPPING",
         },
