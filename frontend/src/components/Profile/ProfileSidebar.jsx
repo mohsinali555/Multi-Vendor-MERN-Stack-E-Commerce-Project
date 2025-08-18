@@ -31,7 +31,7 @@ const ProfileSidebar = ({ active, setActive }) => {
   };
 
   return (
-    <div className="w-full bg-white shadow-sm rounded-[10px] p-4 pt-8">
+    <div className="w-full h-[85vh] bg-white shadow-sm overflow-y-scroll rounded-[10px] p-4 pt-8">
       <div
         className="flex items-center cursor-pointer w-full mb-8"
         onClick={() => setActive(1)}
@@ -146,7 +146,7 @@ const ProfileSidebar = ({ active, setActive }) => {
       )}
 
       <div
-        className="flex items-center cursor-pointer w-full mb-8"
+        className="single_item flex items-center cursor-pointer w-full mb-8"
         onClick={() => setActive(8) || logoutHandler()}
       >
         <AiOutlineLogin size={20} color={active === 8 ? "red" : ""} />

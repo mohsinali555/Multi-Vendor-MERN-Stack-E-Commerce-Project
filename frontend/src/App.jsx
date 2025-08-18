@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   LoginPage,
@@ -44,9 +46,8 @@ import {
   AdminDashboardEventsPage,
   AdminDashboardWithdrawPage,
 } from "./routes/AdminRoutes.js";
-import "./App.css";
 import { ToastContainer, Bounce } from "react-toastify";
-import { useEffect, useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
 import Store from "./redux/store.js";
 import { loadSeller, loadUser } from "./redux/actions/user";
 import { getAllProductsOfShop } from "./redux/actions/product";
