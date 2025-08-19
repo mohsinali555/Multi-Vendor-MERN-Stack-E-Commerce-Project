@@ -46,7 +46,7 @@ const UserInbox = () => {
     const getCoversation = async () => {
       try {
         const response = await axios.get(
-          `${server}/coversation/get-all-conversation-user/${user?._id}`,
+          `${server}/conversation/get-all-conversation-user/${user?._id}`,
           {
             withCredentials: true,
           }
@@ -256,7 +256,6 @@ const MessageList = ({
   setOpen,
   setCurrentChat,
   me,
-  userData,
   setUserData,
   online,
   setActiveStatus,
@@ -278,7 +277,7 @@ const MessageList = ({
     const getUser = async () => {
       try {
         const res = await axios.get(`${server}/shop/get-shop-info/${userId}`);
-        setUser(res.data.user);
+        setUser(res.data.shop);
       } catch (error) {
         console.log(error);
       }
@@ -317,7 +316,7 @@ const MessageList = ({
           <p className="text-[16px] text-[#000c]">
             {!loading && data?.lastMessageId !== user?._id
               ? "You:"
-              : user?.name.split(" ")[0] + ": "}{" "}
+              : user?.name?.split(" ")[0] + ": "}{" "}
             {data?.lastMessage}
           </p>
         </div>

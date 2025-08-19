@@ -16,7 +16,7 @@ const UserOrderDetails = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
-  const [selectedItem, setSelectedItem] = useState(BsFillNutFill);
+  const [selectedItem, setSelectedItem] = useState(null);
   const [rating, setRating] = useState(1);
 
   const { id } = useParams();

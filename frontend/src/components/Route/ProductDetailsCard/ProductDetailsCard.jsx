@@ -93,7 +93,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                         {data?.shop.name}
                       </h3>
                       <h5 className="pb-3 text-[15px]">
-                        {data?.ratings} Ratings
+                        {data?.ratings}/5 Ratings
                       </h5>
                     </div>
                   </Link>

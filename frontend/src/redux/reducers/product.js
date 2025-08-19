@@ -47,7 +47,7 @@ export const productReducer = createReducer(initialState, (builder) => {
     })
 
     // get all products
-    .addCase("getAllProductsSRequest", (state) => {
+    .addCase("getAllProductsRequest", (state) => {
       state.isLoading = true;
     })
     .addCase("getAllProductsSuccess", (state, action) => {
