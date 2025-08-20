@@ -88,7 +88,7 @@ export const deleteProduct = (id) => async (dispatch) => {
 };
 
 // get all products
-export const getAllProductsOfShop = () => async (dispatch) => {
+export const getAllProducts = () => async (dispatch) => {
   try {
     dispatch({
       type: "getAllProductsRequest",

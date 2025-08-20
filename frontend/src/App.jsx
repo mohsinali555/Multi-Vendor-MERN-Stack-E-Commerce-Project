@@ -50,7 +50,7 @@ import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Store from "./redux/store.js";
 import { loadSeller, loadUser } from "./redux/actions/user";
-import { getAllProductsOfShop } from "./redux/actions/product";
+import { getAllProducts } from "./redux/actions/product";
 import { getAllEvents } from "./redux/actions/event";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import SellerProtectedRoute from "./routes/SellerProtectedRoute";
@@ -72,7 +72,7 @@ const App = () => {
   useEffect(() => {
     Store.dispatch(loadUser());
     Store.dispatch(loadSeller());
-    Store.dispatch(getAllProductsOfShop());
+    Store.dispatch(getAllProducts());
     Store.dispatch(getAllEvents());
     getStripeApikey();
   }, []);

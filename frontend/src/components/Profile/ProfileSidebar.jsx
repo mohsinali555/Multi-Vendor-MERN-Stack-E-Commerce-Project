@@ -68,7 +68,7 @@ const ProfileSidebar = ({ active, setActive }) => {
             active === 3 ? "text-[red]" : ""
           } min-[800px]:block hidden`}
         >
-          Refends
+          Refunds
         </span>
       </div>
       <div

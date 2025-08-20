@@ -18,7 +18,7 @@ const ShopSettings = () => {
   const [phoneNumber, setPhoneNumber] = useState(seller && seller.phoneNumber);
   const [zipCode, setZipCode] = useState(seller && seller.zipCode);
 
-  dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handleImage = async (e) => {
     const reader = new FileReader();

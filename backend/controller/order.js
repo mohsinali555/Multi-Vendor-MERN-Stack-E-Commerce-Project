@@ -6,6 +6,7 @@ const { isAuthenticated, isSeller, isAdmin } = require("../middleware/auth");
 const Order = require("../model/order");
 const Shop = require("../model/shop");
 const Product = require("../model/product");
+const Event = require("../model/event");
 
 // create new order
 router.post(
@@ -100,19 +101,52 @@ router.put(
       if (!order) {
         return next(new ErrorHandler("Order not found with this id", 400));
       }
-      if (req.body.status === "Transferred to delivery partner") {
-        order.cart.forEach(async (o) => {
-          await updateOrder(o._id, o.qty);
-        });
+
+      // prevent double update if already delivered
+      if (order.status === "Delivered") {
+        return next(new ErrorHandler("Order is already delivered!", 400));
       }
 
+      // Update status
       order.status = req.body.status;
 
+      // Handle stock & sold_out update only once
+      if (req.body.status === "Transferred to delivery partner") {
+        for (const item of order.cart) {
+          // First try to find as Product
+          let product = await Product.findById(item._id);
+
+          if (product) {
+            product.stock -= item.qty;
+            product.sold_out += item.qty;
+            await product.save({ validateBeforeSave: false });
+          } else {
+            // If not product, try Event
+            let event = await Event.findById(item._id);
+            if (event) {
+              event.stock -= item.qty;
+              event.sold_out += item.qty;
+              await event.save({ validateBeforeSave: false });
+            }
+          }
+        }
+      }
+
+      // Handle payment and seller balance when delivered
       if (req.body.status === "Delivered") {
         order.deliveredAt = Date.now();
-        order.paymentInfo.status = "Succeeded";
+
+        if (order.paymentInfo) {
+          order.paymentInfo.status = "Succeeded";
+        }
+
         const serviceCharge = order.totalPrice * 0.1;
-        await updateSellerInfo(order.totalPrice - serviceCharge);
+        const seller = await Shop.findById(req.seller.id);
+
+        if (seller) {
+          seller.availableBalance += order.totalPrice - serviceCharge;
+          await seller.save();
+        }
       }
 
       await order.save({ validateBeforeSave: false });
@@ -121,28 +155,64 @@ router.put(
         success: true,
         order,
       });
-
-      async function updateOrder(id, qty) {
-        const product = await Product.findById(id);
-
-        product.stock -= qty;
-        product.sold_out += qty;
-
-        await product.save({ validateBeforeSave: false });
-      }
-
-      async function updateSellerInfo(amount) {
-        const seller = await Shop.findById(req.seller.id);
-
-        seller.availableBalance += amount;
-
-        await seller.save();
-      }
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
     }
   })
 );
+
+// // update order status for seller
+// router.put(
+//   "/update-order-status/:id",
+//   isSeller,
+//   catchAsyncErrors(async (req, res, next) => {
+//     try {
+//       const order = await Order.findById(req.params.id);
+
+//       if (!order) {
+//         return next(new ErrorHandler("Order not found with this id", 400));
+//       }
+
+//       order.status = req.body.status;
+
+//       if (req.body.status === "Transferred to delivery partner") {
+//         for (const item of order.cart) {
+//           const product = await Product.findById(item._id);
+//           if (!product) continue;
+
+//           product.stock -= item.qty;
+//           product.sold_out += item.qty;
+
+//           await product.save({ validateBeforeSave: false });
+//         }
+//       }
+
+//       if (req.body.status === "Delivered") {
+//         order.deliveredAt = Date.now();
+//         if (order.paymentInfo) {
+//           order.paymentInfo.status = "Succeeded";
+//         }
+
+//         const serviceCharge = order.totalPrice * 0.1;
+//         const seller = await Shop.findById(req.seller.id);
+
+//         if (seller) {
+//           seller.availableBalance += order.totalPrice - serviceCharge;
+//           await seller.save();
+//         }
+//       }
+
+//       await order.save({ validateBeforeSave: false });
+
+//       res.status(200).json({
+//         success: true,
+//         order,
+//       });
+//     } catch (error) {
+//       return next(new ErrorHandler(error.message, 500));
+//     }
+//   })
+// );
 
 // give a refund  ---- user
 router.put(

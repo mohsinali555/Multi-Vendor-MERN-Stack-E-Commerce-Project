@@ -7,7 +7,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAllOrdersOfShop } from "../../redux/actions/order";
-import { getAllProductsOfShop } from "../../redux/actions/product";
+import { getAllProductsShop } from "../../redux/actions/product";
 
 const DashboardHero = () => {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const DashboardHero = () => {
 
   useEffect(() => {
     dispatch(getAllOrdersOfShop(seller._id));
-    dispatch(getAllProductsOfShop(seller._id));
+    dispatch(getAllProductsShop(seller._id));
   }, [dispatch]);
 
   const availableBalance = seller?.availableBalance.toFixed(2);

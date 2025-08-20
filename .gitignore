@@ -24,3 +24,10 @@ dist-ssr
 *.sw?
 .env
 /uploads
+
+# dependencies
+backend/config/.env
+frontend/node_modules
+backend/node_modules
+socket/node_modules
+

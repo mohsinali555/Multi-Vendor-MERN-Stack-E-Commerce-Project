@@ -5,9 +5,6 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-app.use(express.json({ limit: "50mb" })); // increase JSON limit
-app.use(cookieParser());
-
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -15,12 +12,18 @@ app.use(
   })
 );
 
+app.use(express.json({ limit: "50mb" }));
+app.use(cookieParser());
+app.use("/test", (req, res) => {
+  res.send("Hello world!");
+});
+
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
 // config
 if (process.env.NODE_ENV !== "PRODUCTION") {
   require("dotenv").config({
-    path: "backend/config/.env",
+    path: "config/.env",
   });
 }
 
